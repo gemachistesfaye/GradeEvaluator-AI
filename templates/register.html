@@ -3,7 +3,7 @@
 <div class="content-centered">
     <div class="auth-container">
         <div class="glass-panel" style="text-align: center;">
-            <div style="width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, #10b981, #059669); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem auto; box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.5);">
+            <div style="width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, var(--primary), #f59e0b); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem auto; box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.5);">
                 <i class="fa-solid fa-user-plus"></i>
             </div>
             <h2 style="margin-bottom: 2rem;">Create Account</h2>
@@ -11,9 +11,9 @@
                 <input type="text" name="name" placeholder="Full Name" required>
                 <input type="email" name="email" placeholder="Email Address" required>
                 <input type="password" name="password" placeholder="Password" required>
-                <button type="submit" class="btn" style="width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);"><i class="fa-solid fa-user-plus"></i> Register</button>
+                <button type="submit" class="btn" style="width: 100%;"><i class="fa-solid fa-user-plus"></i> Register</button>
             </form>
-            <p style="margin-top: 2rem; font-size: 0.95rem;">Already have an account? <a href="{{ url_for('login') }}" style="color: #10b981; font-weight: 600; text-decoration: none;">Login here</a></p>
+            <p style="margin-top: 2rem; font-size: 0.95rem;">Already have an account? <a href="{{ url_for('login') }}" style="color: var(--primary); font-weight: 600; text-decoration: none;">Login here</a></p>
         </div>
     </div>
 </div>
