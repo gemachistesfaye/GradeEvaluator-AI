@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="profile-card glass-panel">
+    <div class="avatar"><i class="fa-solid fa-user-graduate" style="font-size: 0.6em;"></i></div>
+    <h2>{{ user.name }}</h2>
+    <p style="color: var(--text-muted);"><i class="fa-solid fa-envelope"></i> {{ user.email }}</p>
+    <div style="display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0;">
+        <div style="text-align: center;">
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">{{ user.joined_date }}</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Joined</div>
+        </div>
+        <div style="text-align: center;">
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">{{ grade_count }}</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Grades Evaluated</div>
+        </div>
+    </div>
+    
+    <h3 style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--card-border);"><i class="fa-solid fa-lock"></i> Change Password</h3>
+    <form method="POST" class="auth-form" style="max-width: 300px; margin: 0 auto;">
+        <input type="password" name="new_password" placeholder="New Password" required>
+        <button type="submit" class="btn" style="width: 100%;"><i class="fa-solid fa-key"></i> Update Password</button>
+    </form>
+</div>
+{% endblock %}

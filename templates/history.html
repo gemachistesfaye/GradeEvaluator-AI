@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="glass-panel">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 style="margin: 0;"><i class="fa-solid fa-clock-rotate-left"></i> Grade History</h2>
+        <div style="display: flex; gap: 0.5rem;">
+            <button onclick="window.print()" class="btn"><i class="fa-solid fa-file-pdf"></i> PDF Report</button>
+            <a href="{{ url_for('export_csv') }}" class="btn"><i class="fa-solid fa-file-csv"></i> CSV Export</a>
+            <a href="{{ url_for('clear_history') }}" class="btn btn-danger" onclick="return confirm('Clear all history?')"><i class="fa-solid fa-trash"></i> Clear All</a>
+        </div>
+    </div>
+
+    <form method="GET" style="margin-bottom: 20px; display: flex; gap: 10px;">
+        <input type="text" name="search" placeholder="Search by subject or date..." value="{{ search }}" style="flex-grow: 1; padding: 0.85rem 1.25rem; border-radius: 8px; border: 1px solid rgba(148,163,184,0.4); background: rgba(255,255,255,0.05); color: var(--text-color);">
+        <button type="submit" class="btn"><i class="fa-solid fa-search"></i> Search</button>
+    </form>
+
+    <div style="overflow-x: auto;">
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Subject</th>
+                    <th>Score</th>
+                    <th>Grade</th>
+                    <th>GPA</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for g in grades %}
+                <tr>
+                    <td>{{ g.date }}</td>
+                    <td>{{ g.subject }}</td>
+                    <td><strong>{{ g.score }}</strong></td>
+                    <td><span class="badge badge-{{ g.letter_grade[0]|lower }}">{{ g.letter_grade }}</span></td>
+                    <td><span style="font-weight: 600;">{{ g.gpa_points }}</span></td>
+                    <td><a href="{{ url_for('delete_grade', grade_id=g.id) }}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can"></i></a></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">No grades found. Start by evaluating a grade!</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

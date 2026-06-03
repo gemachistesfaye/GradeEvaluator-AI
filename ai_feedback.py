@@ -1,34 +1,6 @@
 import os
-import datetime
-from flask import Flask, render_template, request
 from google import genai
 import markdown
-
-app = Flask(__name__)
-
-def get_grade_info(score):
-    if score >= 90:
-        return "A+", 4.0
-    elif score >= 85:
-        return "A", 4.0
-    elif score >= 80:
-        return "A-", 3.75
-    elif score >= 75:
-        return "B+", 3.5
-    elif score >= 70:
-        return "B", 3.0
-    elif score >= 65:
-        return "B-", 2.75
-    elif score >= 60:
-        return "C+", 2.5
-    elif score >= 55:
-        return "C", 2.0
-    elif score >= 50:
-        return "C-", 1.75
-    elif score >= 40:
-        return "D", 1.5
-    else:
-        return "F (NG)", 0.0
 
 PROMPT_TEMPLATE = """You are an expert academic advisor and personal study coach for university students.
 
@@ -182,55 +154,25 @@ STRICT RULES YOU MUST ALWAYS FOLLOW:
 12. Always end with an immediate action the student can take RIGHT NOW
 """
 
-@app.route("/", methods=["GET", "POST"])
-def home():
-    result = ""
-    report_html = ""
-    if request.method == "POST":
-        print("POST request received")
-        try:
-            student_name = request.form.get("student_name", "Student").strip()
-            subject = request.form.get("subject", "General").strip()
-            score = float(request.form["grade"])
-            
-            print(f"Received grade: {score} for {student_name} in {subject}")
-            
-            if score > 100 or score < 1:
-                result = "Invalid input ⚠️ Grade must be between 1 and 100"
-            else:
-                letter_grade, gpa_points = get_grade_info(score)
-                date_str = datetime.datetime.now().strftime("%B %d, %Y")
-                
-                result = f"{letter_grade} ({gpa_points} GPA)"
-                
-                # Try to generate report using Gemini
-                api_key = os.environ.get("GEMINI_API_KEY")
-                if not api_key:
-                    report_html = "<div style='color:red;'>GEMINI_API_KEY environment variable is not set. Cannot generate personalized AI coaching report. Please set the key and restart the app.</div>"
-                else:
-                    try:
-                        client = genai.Client(api_key=api_key)
-                        prompt = PROMPT_TEMPLATE.format(
-                            student_name=student_name,
-                            subject=subject,
-                            score=score,
-                            letter_grade=letter_grade,
-                            gpa_points=gpa_points,
-                            date=date_str
-                        )
-                        response = client.models.generate_content(
-                            model='gemini-2.5-flash',
-                            contents=prompt
-                        )
-                        report_html = markdown.markdown(response.text)
-                    except Exception as e:
-                        print(f"Error generating report: {str(e)}")
-                        report_html = f"<div style='color:red;'>Error generating report: {str(e)}</div>"
-                        
-        except (ValueError, KeyError) as e:
-            print(f"Form parsing error: {e}")
-            result = "❌ Please enter valid data!"
-    return render_template("index.html", result=result, report_html=report_html)
-
-if __name__=="__main__":
-    app.run(debug=True)
+def generate_ai_feedback(student_name, subject, score, letter_grade, gpa_points, date_str):
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        return "<div style='color:red;'>GEMINI_API_KEY environment variable is not set. Cannot generate personalized AI coaching report.</div>"
+    
+    try:
+        client = genai.Client(api_key=api_key)
+        prompt = PROMPT_TEMPLATE.format(
+            student_name=student_name,
+            subject=subject,
+            score=score,
+            letter_grade=letter_grade,
+            gpa_points=gpa_points,
+            date=date_str
+        )
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt
+        )
+        return markdown.markdown(response.text)
+    except Exception as e:
+        return f"<div style='color:red;'>Error generating report: {str(e)}</div>"

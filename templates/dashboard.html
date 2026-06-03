@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="margin-bottom: 1.5rem;">Welcome back, {{ name }}! <span style="font-size: 1.2rem;">👋</span></h2>
+
+<div class="charts-container">
+    <div class="chart-wrapper"><canvas id="barChart"></canvas></div>
+    <div class="chart-wrapper"><canvas id="pieChart"></canvas></div>
+    <div class="chart-wrapper"><canvas id="lineChart"></canvas></div>
+</div>
+
+<div class="form-container glass-panel">
+    <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-calculator"></i> Evaluate New Grade</h3>
+    <form method="POST">
+        <input type="text" name="subject" placeholder="Subject (e.g., Mathematics)" required>
+        <input type="number" name="grade" step="0.1" min="0" max="100" placeholder="Score (0-100)" required>
+        <button type="submit" class="btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Evaluate with AI</button>
+    </form>
+</div>
+
+{% if grades and grades|length > 0 %}
+<div class="latest-evaluation glass-panel">
+    <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-robot"></i> Latest AI Coaching Report</h3>
+    <div class="report-box report-content">
+        {{ grades[0].ai_feedback | safe }}
+    </div>
+</div>
+{% endif %}
+
+<script id="grades-data" type="application/json">
+    {{ grades | tojson | safe }}
+</script>
+<script>
+    // Pass grades data to JS cleanly
+    const gradesData = JSON.parse(document.getElementById('grades-data').textContent);
+</script>
+{% endblock %}

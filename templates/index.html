@@ -1,27 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade Evaluator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-</head>
-<body>
-    <div class="container">
-        <h1>🎓 Grade Evaluator</h1>
-       <form method="POST">
-  <input type="number" name="grade" step="0.1" min="1" max="100" required placeholder="Enter your grade" />
-  <button type="submit">Check Grade</button>
-</form>
-
-{% if result %}
-  <div class="result-box">
-    <p>{{ result }}</p>
-  </div>
-{% endif %}
-
-    </div>
-    
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div class="hero">
+    <h1>Welcome to GradeEvaluator v2.0</h1>
+    <p>Your AI-powered personal academic coach.</p>
+    <a href="{{ url_for('register') }}" class="btn">Get Started</a>
+</div>
+{% endblock %}
