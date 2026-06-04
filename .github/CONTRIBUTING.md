@@ -29,24 +29,24 @@ git checkout -b 325-add-localization-support
 - Ensure all new routes in `app.py` handle both GET and POST requests appropriately if form data is involved.
 - Add logging where necessary, but keep it clean.
 
-## Get the test suite running
+- **Frontend:** Use Vanilla JS and CSS. Respect existing `dark-theme` variables and maintain glassmorphism aesthetics.
+- **Backend (Flask):** Follow PEP 8, handle GET/POST requests appropriately, and keep logs clean.
 
-Make sure your local environment is set up:
+## Setup
+
 ```bash
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-Make sure you can successfully run `python run.py` and interact with the application on `http://localhost:5000`. Test your changes manually to ensure no UI breakages occur.
 
-## Make a Pull Request
+Run `python run.py` to test locally on `http://localhost:5000`.
 
-When you're ready to submit a PR:
-1. Ensure your code follows the style guidelines.
-2. Provide a descriptive title for your PR.
-3. Fill out the Pull Request Template completely.
-4. Include screenshots if your PR introduces visual changes.
+## Pull Requests
 
-At this point, you're waiting on us. We like to at least comment on pull requests within three business days (and, typically, one business day). We may suggest some changes or improvements or alternatives.
+1. Follow style guidelines.
+2. Use a descriptive PR title.
+3. Complete the PR template.
+4. Include screenshots for UI changes.
 
-Thank you for contributing! 🎉
+We aim to review PRs within one business day. Thank you for contributing! 🎉

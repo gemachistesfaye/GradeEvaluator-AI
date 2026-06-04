@@ -1,4 +1,38 @@
-# Contributor Covenant Code of Conduct
+# Code of Conduct 🚦
+
+**Pledge**: Harassment‑free, inclusive community.
+**Standards**: Be kind, respectful, no hate.
+**Enforcement**: Report to **gemachistesfaye36@gmail.com**; we act promptly.
+**Attribution**: Based on Contributor Covenant v2.1.
+
+
+**Pledge**: Harassment‑free, inclusive community.
+**Standards**: Be kind, respectful, no hate.
+**Enforcement**: Report to **gemachistesfaye36@gmail.com**; we act promptly.
+**Attribution**: Based on Contributor Covenant v2.1.
+
+**Pledge**: A harassment‑free, inclusive community.
+**Standards**: Be kind, respectful, no hate.
+**Enforcement**: Report issues to **gemachistesfaye36@gmail.com**; we act promptly.
+**Attribution**: Based on Contributor Covenant v2.1.
+**Pledge**: Harassment‑free, inclusive community.
+**Standards**: Be kind, respectful, no hate.
+**Enforcement**: Report to **gemachistesfaye36@gmail.com**; we will act quickly.
+**Attribution**: Based on Contributor Covenant v2.1.
+
+## Our Pledge
+We strive for a harassment‑free community for everyone.
+
+## Our Standards
+- Be kind and respectful.
+- Use inclusive language.
+- No harassment, discrimination, or hateful behavior.
+
+## Enforcement
+Report issues to **gemachistesfaye36@gmail.com**. We'll investigate and act promptly.
+
+## Attribution
+Based on the Contributor Covenant, version 2.1.
 
 ## Our Pledge
 

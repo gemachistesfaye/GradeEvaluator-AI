@@ -13,7 +13,7 @@
 ## 🌟 Overview
 
 **GradeEvaluator** is a modern, full-stack academic performance tracker designed for students who want deep insights into their academic trajectory. Moving beyond simple calculators, GradeEvaluator features a beautiful glassmorphic UI, robust data visualizations, and an integrated **AI Academic Advisor (GradeBot)** that provides personalized feedback, study plans, and grade improvement strategies.
-
+💡 **Tip:** Use [shields.io](https://shields.io) to generate custom status badges and banners for your project.
 ## ✨ Key Features
 
 - **📊 Comprehensive Dashboard:** Instantly view your Cumulative GPA, Average Scores, and Total Earned Credits.
@@ -79,6 +79,9 @@
 | Dark Mode UI | Print-Ready Transcript |
 | :---: | :---: |
 | <img src="https://via.placeholder.com/600x400.png?text=Dark+Mode+UI" width="400"/> | <img src="https://via.placeholder.com/600x400.png?text=PDF+Transcript" width="400"/> |
+| User Profile | Chatbot Interaction |
+| :---: | :---: |
+| <img src="https://via.placeholder.com/600x400.png?text=User+Profile" width="400"/> | <img src="https://via.placeholder.com/600x400.png?text=Chatbot+Interaction" width="400"/> |
 
 ## 🤝 Contributing
 
@@ -87,6 +90,13 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
+## 🔒 Security
+
+- **Secure Authentication:** Uses Flask session secret keys and HTTPS recommendations.
+- **Input Validation:** All form inputs are sanitized and validated on both client and server sides.
+- **CSRF Protection:** Implemented via Flask‑WTF CSRF token.
+- **Dependency Audits:** Regularly run `pip-audit` to detect vulnerable packages.
+
 
 ## 👨‍💻 About the Developer
 
