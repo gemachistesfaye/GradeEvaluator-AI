@@ -60,6 +60,20 @@
             Evaluate New Grades
         </h3>
         <form method="POST" id="evaluateForm">
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label class="form-label">Semester Name</label>
+                <select name="semester_name">
+                    <option value="Semester 1" selected>Semester 1</option>
+                    <option value="Semester 2">Semester 2</option>
+                    <option value="Semester 3">Semester 3</option>
+                    <option value="Semester 4">Semester 4</option>
+                    <option value="Semester 5">Semester 5</option>
+                    <option value="Semester 6">Semester 6</option>
+                    <option value="Semester 7">Semester 7</option>
+                    <option value="Semester 8">Semester 8</option>
+                </select>
+            </div>
+            
             <div id="courseList">
                 <div class="course-row" style="background: var(--bg-secondary); padding: 16px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border); position: relative;">
                     <button type="button" class="remove-row-btn" onclick="this.parentElement.remove()" style="position: absolute; top: 12px; right: 12px; background: none; border: none; color: var(--text-tertiary); font-size: 20px; cursor: pointer; display: none; line-height: 1;">&times;</button>
@@ -99,8 +113,8 @@
     <div class="card" style="display: flex; flex-direction: column;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h3 style="font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--bg-secondary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px;">📋</div>
-                Recent Activity
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--bg-secondary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px;">📚</div>
+                Semester Breakdown
             </h3>
             <div style="display: flex; align-items: center; gap: 12px;">
                 {% if grades|length > 0 %}
@@ -108,33 +122,40 @@
                     🗑️ Clear History
                 </a>
                 {% endif %}
-                {% if grades|length > 5 %}
-                <a href="{{ url_for('history') }}" style="font-size: 13px; font-weight: 500;">View All &rarr;</a>
-                {% endif %}
             </div>
         </div>
         
-        {% if grades and grades|length > 0 %}
-        <div style="display: flex; flex-direction: column; gap: 12px; flex: 1; overflow-y: auto;">
-            {% for g in grades[:5] %}
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-secondary);">
-                <div>
-                    <div style="font-size: 14px; font-weight: 600;">{{ g.subject }}</div>
-                    <div style="font-size: 12px; color: var(--text-secondary);">{{ g.date }} · {{ g.credits if g.credits is defined else 3 }} Credits</div>
+        {% if semesters_data and semesters_data|length > 0 %}
+        <div style="display: flex; flex-direction: column; gap: 24px; flex: 1; overflow-y: auto; padding-right: 8px;">
+            {% for semester in semesters_data %}
+            <div class="semester-card" style="background: var(--bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden;">
+                <div style="background: var(--bg-secondary); padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                    <h4 style="margin: 0; font-size: 15px;">{{ semester.name }}</h4>
+                    <span class="badge" style="background: var(--primary-light); color: var(--primary); font-weight: 700;">{{ semester.sgpa }} SGPA</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div style="text-align: right;">
-                        <div style="font-weight: 700; font-size: 15px;">{{ g.score }}<span style="font-size: 12px; color: var(--text-tertiary); font-weight: 500;">/100</span></div>
-                        <div style="font-size: 12px; font-weight: 600; color: var(--primary);">{{ g.gpa_points }} GPA</div>
+                <div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 12px;">
+                    {% for g in semester.grades %}
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600;">{{ g.subject }}</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">{{ g.credits if g.credits is defined else 3 }} Credits</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="text-align: right;">
+                                <div style="font-weight: 700; font-size: 14px;">{{ g.score }}<span style="font-size: 11px; color: var(--text-tertiary);">/100</span></div>
+                                <div style="font-size: 11px; font-weight: 600; color: var(--primary);">{{ g.gpa_points }} GPA</div>
+                            </div>
+                            <span class="badge badge-{{ g.letter_grade[0]|lower }}" style="font-size: 13px; padding: 4px 8px;">{{ g.letter_grade }}</span>
+                        </div>
                     </div>
-                    <span class="badge badge-{{ g.letter_grade[0]|lower }}" style="font-size: 14px; padding: 4px 10px;">{{ g.letter_grade }}</span>
+                    {% endfor %}
                 </div>
             </div>
             {% endfor %}
         </div>
         {% else %}
         <div style="text-align: center; color: var(--text-tertiary); padding: 40px 0; flex: 1; display: flex; align-items: center; justify-content: center;">
-            No grades yet. Evaluate your first grade!
+            No semesters recorded yet. Evaluate your first semester!
         </div>
         {% endif %}
     </div>

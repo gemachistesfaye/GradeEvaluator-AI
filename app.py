@@ -124,6 +124,7 @@ def dashboard():
         return redirect(url_for("login"))
     user_id = session["user_id"]
     if request.method == "POST":
+        semester_name = request.form.get("semester_name", "Semester 1").strip()
         subjects = request.form.getlist("subject[]")
         scores = request.form.getlist("grade[]")
         credits_list = request.form.getlist("credits[]")
@@ -146,14 +147,32 @@ def dashboard():
                     
                 letter_grade, gpa_points = get_grade_info(score)
                 # Save without AI feedback initially
-                add_grade(user_id, subject, score, letter_grade, gpa_points, "", credits=credit)
+                add_grade(user_id, subject, score, letter_grade, gpa_points, "", credits=credit, semester_name=semester_name)
                 
             flash("Grades evaluated and saved! Click 'Analyze Semester' to get your AI report.", "success")
         except ValueError:
             flash("Please enter valid numbers.", "danger")
             
     grades = get_grades_by_student(user_id)
-    return render_template("dashboard.html", grades=grades, name=session["user_name"], cumulative_gpa=calculate_cumulative_gpa(grades))
+    
+    # Group grades by semester
+    from collections import OrderedDict
+    semesters_dict = OrderedDict()
+    for g in grades:
+        sem_name = g.get('semester_name', 'Semester 1')
+        if sem_name not in semesters_dict:
+            semesters_dict[sem_name] = []
+        semesters_dict[sem_name].append(g)
+        
+    semesters_data = []
+    for sem_name, sem_grades in semesters_dict.items():
+        semesters_data.append({
+            'name': sem_name,
+            'grades': sem_grades,
+            'sgpa': calculate_cumulative_gpa(sem_grades)
+        })
+        
+    return render_template("dashboard.html", grades=grades, semesters_data=semesters_data, name=session["user_name"], cumulative_gpa=calculate_cumulative_gpa(grades))
 
 @app.route("/generate_report", methods=["POST"])
 def generate_report():

@@ -19,7 +19,7 @@ def init_db():
                 joined_date TEXT NOT NULL
             )
         ''')
-        # Include credits column with default 3
+        # Include credits and semester_name columns
         conn.execute('''
             CREATE TABLE IF NOT EXISTS grades (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,6 +31,7 @@ def init_db():
                 ai_feedback TEXT,
                 date TEXT NOT NULL,
                 credits INTEGER NOT NULL DEFAULT 3,
+                semester_name TEXT NOT NULL DEFAULT 'Semester 1',
                 FOREIGN KEY(student_id) REFERENCES students(id)
             )
         ''')
@@ -67,22 +68,29 @@ def get_grade_count(user_id):
         count = conn.execute("SELECT COUNT(*) FROM grades WHERE student_id = ?", (user_id,)).fetchone()
         return count[0] if count else 0
 
-# Updated add_grade with credits parameter and graceful handling of missing column
-def add_grade(student_id, subject, score, letter_grade, gpa_points, ai_feedback, credits=3):
+# Updated add_grade with credits and semester_name parameter
+def add_grade(student_id, subject, score, letter_grade, gpa_points, ai_feedback, credits=3, semester_name='Semester 1'):
     date_str = datetime.now().strftime("%B %d, %Y")
     with get_db() as conn:
         try:
             conn.execute(
-                "INSERT INTO grades (student_id, subject, score, letter_grade, gpa_points, ai_feedback, date, credits) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                (student_id, subject, score, letter_grade, gpa_points, ai_feedback, date_str, credits)
+                "INSERT INTO grades (student_id, subject, score, letter_grade, gpa_points, ai_feedback, date, credits, semester_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (student_id, subject, score, letter_grade, gpa_points, ai_feedback, date_str, credits, semester_name)
             )
         except sqlite3.OperationalError as e:
-            # If credits column missing, add it then retry
-            if "credits" in str(e).lower():
-                conn.execute('ALTER TABLE grades ADD COLUMN credits INTEGER NOT NULL DEFAULT 3')
+            if "has no column" in str(e).lower() or "table grades" in str(e).lower():
+                try:
+                    conn.execute('ALTER TABLE grades ADD COLUMN credits INTEGER NOT NULL DEFAULT 3')
+                except:
+                    pass
+                try:
+                    conn.execute('ALTER TABLE grades ADD COLUMN semester_name TEXT NOT NULL DEFAULT "Semester 1"')
+                except:
+                    pass
+                
                 conn.execute(
-                    "INSERT INTO grades (student_id, subject, score, letter_grade, gpa_points, ai_feedback, date, credits) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                    (student_id, subject, score, letter_grade, gpa_points, ai_feedback, date_str, credits)
+                    "INSERT INTO grades (student_id, subject, score, letter_grade, gpa_points, ai_feedback, date, credits, semester_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (student_id, subject, score, letter_grade, gpa_points, ai_feedback, date_str, credits, semester_name)
                 )
             else:
                 raise
