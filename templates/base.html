@@ -28,7 +28,7 @@
                 <a href="{{ url_for('dashboard') }}" class="btn btn-ghost {{ 'active' if request.endpoint == 'dashboard' else '' }}">Dashboard</a>
                 <a href="{{ url_for('history') }}" class="btn btn-ghost {{ 'active' if request.endpoint == 'history' else '' }}">History</a>
                 <a href="{{ url_for('profile') }}" class="btn btn-ghost {{ 'active' if request.endpoint == 'profile' else '' }}">Profile</a>
-                <a href="{{ url_for('logout') }}" class="btn btn-outline btn-sm">Logout</a>
+                <a href="#" onclick="openConfirmModal('Log Out', 'Are you sure you want to log out of your account?', '{{ url_for('logout') }}'); return false;" class="btn btn-outline btn-sm">Logout</a>
                 {% else %}
                 <a href="{{ url_for('login') }}" class="btn btn-ghost">Login</a>
                 <a href="{{ url_for('register') }}" class="btn btn-sm">Get Started</a>
@@ -54,7 +54,34 @@
         {% block content %}{% endblock %}
     </main>
 
+    <!-- Custom Confirm Modal -->
+    <div id="confirmModal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px;">
+        <div class="card" style="width: 100%; max-width: 400px; padding: 32px; text-align: center; animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none;">
+            <div style="font-size: 40px; margin-bottom: 16px;">⚠️</div>
+            <h3 id="confirmTitle" style="font-size: 20px; margin-bottom: 12px;">Are you sure?</h3>
+            <p id="confirmMessage" style="color: var(--text-secondary); font-size: 14px; margin-bottom: 32px;">This action cannot be undone.</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button onclick="closeConfirmModal()" class="btn btn-outline" style="flex: 1;">Cancel</button>
+                <a id="confirmActionBtn" href="#" class="btn" style="flex: 1; background: var(--danger); border-color: var(--danger);">Yes, confirm</a>
+            </div>
+        </div>
+    </div>
+    <style>
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+
     <script>
+    // Global Confirm Modal
+    window.openConfirmModal = function(title, message, href) {
+        document.getElementById('confirmTitle').textContent = title;
+        document.getElementById('confirmMessage').textContent = message;
+        document.getElementById('confirmActionBtn').href = href;
+        document.getElementById('confirmModal').style.display = 'flex';
+    };
+    window.closeConfirmModal = function() {
+        document.getElementById('confirmModal').style.display = 'none';
+    };
+
     // Auto-dismiss alerts
     setTimeout(() => {
         document.querySelectorAll('.alert').forEach(a => {

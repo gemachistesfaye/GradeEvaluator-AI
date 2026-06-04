@@ -61,8 +61,9 @@
         </h3>
         <form method="POST" id="evaluateForm">
             <div id="courseList">
-                <div class="course-row" style="background: var(--bg-secondary); padding: 12px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
-                    <div class="form-group" style="margin-bottom: 12px;">
+                <div class="course-row" style="background: var(--bg-secondary); padding: 16px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border); position: relative;">
+                    <button type="button" class="remove-row-btn" onclick="this.parentElement.remove()" style="position: absolute; top: 12px; right: 12px; background: none; border: none; color: var(--text-tertiary); font-size: 20px; cursor: pointer; display: none; line-height: 1;">&times;</button>
+                    <div class="form-group" style="margin-bottom: 12px; padding-right: 20px;">
                         <label class="form-label">Subject Name</label>
                         <input type="text" name="subject[]" placeholder="e.g. Advanced Calculus" required>
                     </div>
@@ -103,7 +104,7 @@
             </h3>
             <div style="display: flex; align-items: center; gap: 12px;">
                 {% if grades|length > 0 %}
-                <a href="{{ url_for('clear_history') }}" class="btn btn-outline btn-sm" style="color: var(--danger); border-color: var(--danger); font-size: 12px;" onclick="return confirm('Are you sure you want to clear all your grades and start from scratch?')">
+                <a href="#" class="btn btn-outline btn-sm" style="color: var(--danger); border-color: var(--danger); font-size: 12px;" onclick="openConfirmModal('Clear History', 'Are you sure you want to clear all your grades and start from scratch?', '{{ url_for('clear_history') }}'); return false;">
                     🗑️ Clear History
                 </a>
                 {% endif %}
@@ -214,6 +215,8 @@
         // Keep default selected credit
         const select = newRow.querySelector('select');
         select.value = '3';
+        // Make remove button visible
+        newRow.querySelector('.remove-row-btn').style.display = 'block';
         container.appendChild(newRow);
     }
 </script>
