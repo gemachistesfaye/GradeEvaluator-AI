@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="hero">
-    <h1>Welcome to GradeEvaluator v2.0</h1>
-    <p>Your AI-powered personal academic coach.</p>
-    <a href="{{ url_for('register') }}" class="btn">Get Started</a>
+<div class="content-centered">
+    <div class="hero">
+        <div style="display: inline-block; padding: 0.5rem 1rem; background: var(--primary-light); color: var(--primary); border-radius: 999px; font-weight: 600; font-size: 0.85rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-wand-magic-sparkles"></i> Powered by Gemini AI</div>
+        <h1>Welcome to <span>GradeEvaluator</span></h1>
+        <p style="font-size: 1.25rem; max-width: 500px; margin: 0 auto 2.5rem auto; color: var(--text-muted);">Your personal academic coach. Track grades, analyze performance, and get instant, actionable feedback to reach your full potential.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="{{ url_for('register') }}" class="btn btn-lg" style="padding: 1rem 2rem; font-size: 1.1rem;"><i class="fa-solid fa-rocket"></i> Start for Free</a>
+            <a href="{{ url_for('login') }}" class="btn btn-lg" style="padding: 1rem 2rem; font-size: 1.1rem; background: #fff; color: var(--text-color); border: 1px solid var(--sidebar-border); box-shadow: var(--shadow-sm);"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+        </div>
+    </div>
 </div>
 {% endblock %}

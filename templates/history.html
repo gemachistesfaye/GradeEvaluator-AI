@@ -35,7 +35,11 @@
                     <td><strong>{{ g.score }}</strong></td>
                     <td><span class="badge badge-{{ g.letter_grade[0]|lower }}">{{ g.letter_grade }}</span></td>
                     <td><span style="font-weight: 600;">{{ g.gpa_points }}</span></td>
-                    <td><a href="{{ url_for('delete_grade', grade_id=g.id) }}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can"></i></a></td>
+                    <form method="POST" action="{{ url_for('delete_grade', grade_id=g.id) }}" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </form>
                 </tr>
                 {% else %}
                 <tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">No grades found. Start by evaluating a grade!</td></tr>

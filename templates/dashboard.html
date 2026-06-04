@@ -2,19 +2,56 @@
 {% block content %}
 <h2 style="margin-bottom: 1.5rem;">Welcome back, {{ name }}! <span style="font-size: 1.2rem;">👋</span></h2>
 
+{% if grades and grades|length > 0 %}
 <div class="charts-container">
-    <div class="chart-wrapper"><canvas id="barChart"></canvas></div>
-    <div class="chart-wrapper"><canvas id="pieChart"></canvas></div>
-    <div class="chart-wrapper"><canvas id="lineChart"></canvas></div>
+    <div class="chart-wrapper">
+      <canvas id="barChart"></canvas>
+    </div>
+    <div class="chart-wrapper">
+      <canvas id="pieChart"></canvas>
+    </div>
+    <div class="chart-wrapper">
+      <canvas id="lineChart"></canvas>
+    </div>
 </div>
+{% else %}
+<div class="glass-panel" style="text-align:center; 
+     padding: 3rem; color: var(--text-muted);">
+    <i class="fa-solid fa-chart-pie" 
+       style="font-size:3rem; margin-bottom:1rem; 
+       color: var(--primary-light);"></i>
+    <h3>No grades yet</h3>
+    <p>Evaluate your first grade below to see 
+       your charts and analytics here.</p>
+</div>
+{% endif %}
 
-<div class="form-container glass-panel">
-    <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-calculator"></i> Evaluate New Grade</h3>
-    <form method="POST">
-        <input type="text" name="subject" placeholder="Subject (e.g., Mathematics)" required>
-        <input type="number" name="grade" step="0.1" min="0" max="100" placeholder="Score (0-100)" required>
-        <button type="submit" class="btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Evaluate with AI</button>
-    </form>
+<div class="charts-container">
+    <div class="form-container glass-panel" style="flex: 1; margin-bottom: 0;">
+        <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-calculator"></i> Evaluate New Grade</h3>
+        <form method="POST" id="evaluateForm">
+            <input type="text" name="subject" placeholder="Subject (e.g., Mathematics)" required>
+            <input type="number" name="grade" step="0.1" min="0" max="100" placeholder="Score (0-100)" required>
+            <button type="submit" class="btn" style="width: 100%;"><i class="fa-solid fa-wand-magic-sparkles"></i> Evaluate with AI</button>
+        </form>
+    </div>
+
+    <div class="glass-panel" style="flex: 1; margin-bottom: 0; padding: 1.5rem;">
+        <h3 style="margin-bottom: 1rem; font-size: 1.1rem;"><i class="fa-solid fa-scale-balanced"></i> Grading Scale Reference</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.85rem;">
+            <div><span class="badge badge-a" style="width: 40px; display: inline-block; text-align: center;">A+</span> 90 - 100 (4.0)</div>
+            <div><span class="badge badge-a" style="width: 40px; display: inline-block; text-align: center;">A</span> 85 - 89.9 (4.0)</div>
+            <div><span class="badge badge-a" style="width: 40px; display: inline-block; text-align: center;">A-</span> 80 - 84.9 (3.75)</div>
+            <div><span class="badge badge-b" style="width: 40px; display: inline-block; text-align: center;">B+</span> 75 - 79.9 (3.5)</div>
+            <div><span class="badge badge-b" style="width: 40px; display: inline-block; text-align: center;">B</span> 70 - 74.9 (3.0)</div>
+            <div><span class="badge badge-b" style="width: 40px; display: inline-block; text-align: center;">B-</span> 65 - 69.9 (2.75)</div>
+            <div><span class="badge badge-c" style="width: 40px; display: inline-block; text-align: center;">C+</span> 60 - 64.9 (2.5)</div>
+            <div><span class="badge badge-c" style="width: 40px; display: inline-block; text-align: center;">C</span> 55 - 59.9 (2.0)</div>
+            <div><span class="badge badge-c" style="width: 40px; display: inline-block; text-align: center;">C-</span> 50 - 54.9 (1.75)</div>
+            <div><span class="badge badge-d" style="width: 40px; display: inline-block; text-align: center;">D</span> 40 - 49.9 (1.5)</div>
+            <div style="grid-column: span 2;"><span class="badge badge-f" style="width: 40px; display: inline-block; text-align: center;">F</span> Below 40 (NG - 0.0)</div>
+        </div>
+    </div>
 </div>
 
 {% if grades and grades|length > 0 %}
@@ -26,11 +63,22 @@
 </div>
 {% endif %}
 
+<!-- LOADING OVERLAY -->
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner"></div>
+    <div class="loading-text">🧠 AI is analyzing your performance...</div>
+</div>
+
 <script id="grades-data" type="application/json">
     {{ grades | tojson | safe }}
 </script>
 <script>
     // Pass grades data to JS cleanly
     const gradesData = JSON.parse(document.getElementById('grades-data').textContent);
+    
+    // Trigger loading overlay on form submit
+    document.getElementById('evaluateForm').addEventListener('submit', function() {
+        document.getElementById('loadingOverlay').classList.add('active');
+    });
 </script>
 {% endblock %}

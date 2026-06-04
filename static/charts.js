@@ -14,22 +14,55 @@ document.addEventListener("DOMContentLoaded", () => {
         if(dist[letter] !== undefined) dist[letter]++;
     });
 
+Chart.defaults.color = '#64748b'; // Slate-500
+    Chart.defaults.font.family = "'Outfit', sans-serif";
+    
+    const gridConfig = { color: '#e2e8f0' }; // Slate-200
+
+    // Group subjects and average their scores
+    const subjectMap = {};
+    gradesData.forEach(g => {
+        if (!subjectMap[g.subject]) {
+            subjectMap[g.subject] = { total: 0, count: 0 };
+        }
+        subjectMap[g.subject].total += g.score;
+        subjectMap[g.subject].count += 1;
+    });
+    const groupedSubjects = Object.keys(subjectMap);
+    const groupedScores = groupedSubjects.map(s => 
+        parseFloat(
+          (subjectMap[s].total / subjectMap[s].count).toFixed(1)
+        )
+    );
+
     // Bar Chart - Grades by subject
     new Chart(document.getElementById('barChart'), {
         type: 'bar',
         data: {
-            labels: subjects,
-            datasets: [{ label: 'Score', data: scores, backgroundColor: '#3498db' }]
-        }
+            labels: groupedSubjects,
+            datasets: [{ 
+                label: 'Score', 
+                data: groupedScores, 
+                backgroundColor: '#4f46e5', // Indigo 600
+                borderRadius: 4
+            }]
+        },
+        options: { scales: { y: { grid: gridConfig }, x: { grid: { display: false } } }, plugins: { legend: { display: false }, title: { display: true, text: 'Scores by Subject', color: '#0f172a', font: {size: 16, weight: 'bold'} } } }
     });
 
     // Pie Chart - Distribution
     new Chart(document.getElementById('pieChart'), {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: Object.keys(dist),
-            datasets: [{ data: Object.values(dist), backgroundColor: ['#2ecc71', '#f1c40f', 'orange', '#e74c3c', 'darkred'] }]
-        }
+            datasets: [{ 
+                data: Object.values(dist), 
+                backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#f97316', '#ef4444'],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: { plugins: { title: { display: true, text: 'Grade Distribution', color: '#0f172a', font: {size: 16, weight: 'bold'} } }, cutout: '75%' }
     });
 
     // Line Chart - Progress
@@ -37,7 +70,18 @@ document.addEventListener("DOMContentLoaded", () => {
         type: 'line',
         data: {
             labels: dates,
-            datasets: [{ label: 'Score Over Time', data: scores, borderColor: '#e74c3c', fill: false }]
-        }
+            datasets: [{ 
+                label: 'Score Over Time', 
+                data: scores, 
+                borderColor: '#4f46e5', 
+                backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#ffffff',
+                pointBorderColor: '#4f46e5',
+                pointBorderWidth: 2
+            }]
+        },
+        options: { scales: { y: { grid: gridConfig }, x: { grid: { display: false } } }, plugins: { legend: { display: false }, title: { display: true, text: 'Progress Over Time', color: '#0f172a', font: {size: 16, weight: 'bold'} } } }
     });
 });

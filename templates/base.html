@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade Evaluator v2.0</title>
+    <title>GradeEvaluator - Academic Coach</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -19,19 +19,46 @@
 
 <body>
     <nav class="sidebar">
-        <div class="logo"><i class="fa-solid fa-graduation-cap"></i> GradeEvaluator</div>
+        <div class="logo"><i class="fa-solid fa-graduation-cap" style="color: var(--primary);"></i> GradeEvaluator</div>
         <ul>
             {% if session.user_id %}
-            <li><a href="{{ url_for('dashboard') }}"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-            <li><a href="{{ url_for('history') }}"><i class="fa-solid fa-clock-rotate-left"></i> History</a></li>
-            <li><a href="{{ url_for('profile') }}"><i class="fa-solid fa-user"></i> Profile</a></li>
+            <li>
+              <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint == 'dashboard' else '' }}">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('history') }}" class="{{ 'active' if request.endpoint == 'history' else '' }}">
+                <i class="fa-solid fa-clock-rotate-left"></i> History
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('profile') }}" class="{{ 'active' if request.endpoint == 'profile' else '' }}">
+                <i class="fa-solid fa-user"></i> Profile
+              </a>
+            </li>
             <li><a href="{{ url_for('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
             {% else %}
-            <li><a href="{{ url_for('index') }}"><i class="fa-solid fa-house"></i> Home</a></li>
-            <li><a href="{{ url_for('login') }}"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
-            <li><a href="{{ url_for('register') }}"><i class="fa-solid fa-user-plus"></i> Register</a></li>
+            <li>
+              <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' else '' }}">
+                <i class="fa-solid fa-house"></i> Home
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('login') }}" class="{{ 'active' if request.endpoint == 'login' else '' }}">
+                <i class="fa-solid fa-right-to-bracket"></i> Login
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('register') }}" class="{{ 'active' if request.endpoint == 'register' else '' }}">
+                <i class="fa-solid fa-user-plus"></i> Register
+              </a>
+            </li>
             {% endif %}
         </ul>
+        <button id="darkToggle" onclick="toggleDark()">
+          <i class="fa-solid fa-moon"></i> Dark Mode
+        </button>
     </nav>
     <main class="content">
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -43,6 +70,24 @@
         {% endwith %}
         {% block content %}{% endblock %}
     </main>
+    <script>
+    function toggleDark() {
+        const html = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        const icon = document.querySelector('#darkToggle i');
+        icon.className = isDark ? 
+          'fa-solid fa-moon' : 'fa-solid fa-sun';
+    }
+    // Load saved theme on page load
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    if (saved === 'dark') {
+        document.querySelector('#darkToggle i').className = 
+          'fa-solid fa-sun';
+    }
+    </script>
 </body>
 
 </html>
