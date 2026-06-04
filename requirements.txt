@@ -3,3 +3,4 @@ gunicorn
 google-genai
 markdown
 reportlab
+python-dotenv
