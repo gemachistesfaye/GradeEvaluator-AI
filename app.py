@@ -124,24 +124,61 @@ def dashboard():
         return redirect(url_for("login"))
     user_id = session["user_id"]
     if request.method == "POST":
-        subject = request.form.get("subject", "General").strip()
-        credits = request.form.get("credits", 3, type=int)
+        subjects = request.form.getlist("subject[]")
+        scores = request.form.getlist("grade[]")
+        credits_list = request.form.getlist("credits[]")
+        
+        # Fallback if no JS array used
+        if not subjects:
+            subjects = [request.form.get("subject", "General").strip()]
+            scores = [request.form.get("grade")]
+            credits_list = [request.form.get("credits", 3)]
+
         try:
-            score = float(request.form["grade"])
-            if score < 0 or score > 100:
-                flash("Grade must be between 0 and 100.", "danger")
-            else:
+            for i in range(len(subjects)):
+                subject = subjects[i].strip()
+                score = float(scores[i])
+                credit = int(credits_list[i])
+                
+                if score < 0 or score > 100:
+                    flash(f"Grade for {subject} must be between 0 and 100.", "danger")
+                    continue
+                    
                 letter_grade, gpa_points = get_grade_info(score)
-                date_str = datetime.datetime.now().strftime("%B %d, %Y")
-                ai_feedback = generate_ai_feedback(
-                    session["user_name"], subject, score, letter_grade, gpa_points, date_str
-                )
-                add_grade(user_id, subject, score, letter_grade, gpa_points, ai_feedback, credits=credits)
-                flash("Grade evaluated and saved!", "success")
+                # Save without AI feedback initially
+                add_grade(user_id, subject, score, letter_grade, gpa_points, "", credits=credit)
+                
+            flash("Grades evaluated and saved! Click 'Analyze Semester' to get your AI report.", "success")
         except ValueError:
-            flash("Please enter a valid number.", "danger")
+            flash("Please enter valid numbers.", "danger")
+            
     grades = get_grades_by_student(user_id)
     return render_template("dashboard.html", grades=grades, name=session["user_name"], cumulative_gpa=calculate_cumulative_gpa(grades))
+
+@app.route("/generate_report", methods=["POST"])
+def generate_report():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    user_id = session["user_id"]
+    grades = get_grades_by_student(user_id)
+    if not grades:
+        flash("No grades to analyze.", "warning")
+        return redirect(url_for("dashboard"))
+        
+    grades_summary = "\n".join([f"- {g['subject']}: {g['score']}/100 ({g['letter_grade']}), {g.get('credits', 3)} credits" for g in grades])
+    date_str = datetime.datetime.now().strftime("%B %d, %Y")
+    
+    from ai_feedback import generate_semester_report
+    report = generate_semester_report(session["user_name"], grades_summary, date_str)
+    
+    # Save report to the most recent grade to persist it
+    from database import get_db
+    with get_db() as conn:
+        conn.execute("UPDATE grades SET ai_feedback = ? WHERE id = ?", (report, grades[0]["id"]))
+        conn.commit()
+        
+    flash("Semester report generated successfully!", "success")
+    return redirect(url_for("dashboard"))
 
 @app.route("/chat", methods=["POST"])
 def chat():

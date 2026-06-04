@@ -128,3 +128,28 @@ def generate_ai_feedback(student_name, subject,
     return generate_first_message(
         student_name, subject, score,
         letter_grade, gpa_points, date_str)
+
+def generate_semester_report(student_name, grades_summary, date_str):
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        return "<p>GEMINI_API_KEY not set.</p>"
+    try:
+        client = genai.Client(api_key=api_key)
+        prompt = f"""You are GradeBot, an expert academic advisor.
+Student Name: {student_name}
+Date: {date_str}
+Grades Overview:
+{grades_summary}
+
+Please write a comprehensive academic report analyzing this student's overall performance.
+- Use HTML formatting tags (<h3>, <strong>, <p>, <ul>, <li>).
+- Do NOT use markdown symbols (no asterisks or hash symbols).
+- Keep it encouraging but honest. Highlight strengths and suggest improvements.
+"""
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt
+        )
+        return response.text
+    except Exception as e:
+        return "<p>Sorry, I had trouble analyzing your semester. Please try again!</p>"

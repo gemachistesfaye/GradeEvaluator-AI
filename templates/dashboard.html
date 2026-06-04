@@ -57,31 +57,39 @@
     <div class="card">
         <h3 style="font-size: 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
             <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 16px;">+</div>
-            Evaluate New Grade
+            Evaluate New Grades
         </h3>
         <form method="POST" id="evaluateForm">
-            <div class="form-group">
-                <label class="form-label">Subject Name</label>
-                <input type="text" name="subject" placeholder="e.g. Advanced Calculus" required>
+            <div id="courseList">
+                <div class="course-row" style="background: var(--bg-secondary); padding: 12px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label class="form-label">Subject Name</label>
+                        <input type="text" name="subject[]" placeholder="e.g. Advanced Calculus" required>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Score (0–100)</label>
+                            <input type="number" name="grade[]" step="0.1" min="0" max="100" placeholder="e.g. 85.5" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Credit Hours</label>
+                            <select name="credits[]">
+                                <option value="2">2 Credits</option>
+                                <option value="3" selected>3 Credits</option>
+                                <option value="4">4 Credits</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-                <div class="form-group">
-                    <label class="form-label">Score (0–100)</label>
-                    <input type="number" name="grade" step="0.1" min="0" max="100" placeholder="e.g. 85.5" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Credit Hours</label>
-                    <select name="credits">
-                        <option value="2">2 Credits</option>
-                        <option value="3" selected>3 Credits</option>
-                        <option value="4">4 Credits</option>
-                    </select>
-                </div>
-            </div>
+            <button type="button" class="btn btn-outline" style="width: 100%; margin-bottom: 16px; justify-content: center;" onclick="addCourseRow()">
+                ➕ Add Another Course
+            </button>
             
-            <button type="submit" class="btn" style="width: 100%; padding: 12px; font-size: 15px;">
-                Evaluate with AI 🧠
+            <button type="submit" class="btn" style="width: 100%; padding: 12px; font-size: 15px; justify-content: center;">
+                Save Grades & Calculate GPA 📊
             </button>
         </form>
     </div>
@@ -138,11 +146,18 @@
     <div style="display: flex; align-items: center; gap: 16px;">
         <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 24px;">🤖</div>
         <div>
-            <h3 style="font-size: 16px; margin-bottom: 4px;">Latest Academic Advisor Report</h3>
-            <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">GradeBot has analyzed your recent performance in <span style="font-weight: 600;">{{ grades[0].subject }}</span>.</p>
+            <h3 style="font-size: 16px; margin-bottom: 4px;">Academic Advisor Report</h3>
+            <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">Analyze your overall semester performance.</p>
         </div>
     </div>
-    <button onclick="document.getElementById('aiReportModal').classList.add('active')" class="btn">View Full Report ✨</button>
+    <div style="display: flex; gap: 12px;">
+        {% if grades and grades[0].ai_feedback %}
+        <button onclick="document.getElementById('aiReportModal').classList.add('active')" class="btn btn-outline">View Report ✨</button>
+        {% endif %}
+        <form method="POST" action="{{ url_for('generate_report') }}" style="margin: 0;" onsubmit="document.getElementById('loadingOverlay').classList.add('active');">
+            <button type="submit" class="btn">🧠 Generate New Analysis</button>
+        </form>
+    </div>
 </div>
 
 <!-- AI REPORT MODAL -->
@@ -186,6 +201,21 @@
 <!-- DATA FOR JS -->
 <script id="grades-data" type="application/json">
     {{ grades | tojson | safe }}
+</script>
+
+<script>
+    function addCourseRow() {
+        const container = document.getElementById('courseList');
+        const firstRow = container.querySelector('.course-row');
+        const newRow = firstRow.cloneNode(true);
+        // Clear values
+        const inputs = newRow.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
+        // Keep default selected credit
+        const select = newRow.querySelector('select');
+        select.value = '3';
+        container.appendChild(newRow);
+    }
 </script>
 
 <!-- FLOATING CHATBOT -->
