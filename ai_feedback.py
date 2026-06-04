@@ -4,12 +4,11 @@ load_dotenv()
 from google import genai
 import markdown
 
-PROMPT_TEMPLATE = """You are an expert academic advisor 
-and personal study coach for university students.
+SYSTEM_PROMPT = """You are GradeBot, a friendly and 
+smart academic coach inside GradeEvaluator app.
 
-A student has just evaluated their grade using GradeEvaluator.
-Here is their result:
-
+You are talking to a student who just evaluated 
+their grade. You know their result:
 - Student Name: {student_name}
 - Subject: {subject}
 - Score: {score}/100
@@ -17,111 +16,64 @@ Here is their result:
 - GPA Points: {gpa_points}
 - Date: {date}
 
-Use this EXACT grading scale for all your analysis:
-| Score Range  | Letter Grade | GPA Points |
-|90 - 100      | A+           | 4.0        |
-|85 - 89.9999  | A            | 4.0        |
-|80 - 84.9999  | A-           | 3.75       |
-|75 - 79.9999  | B+           | 3.5        |
-|70 - 74.9999  | B            | 3.0        |
-|65 - 69.9999  | B-           | 2.75       |
-|60 - 64.9999  | C+           | 2.5        |
-|55 - 59.9999  | C            | 2.0        |
-|50 - 54.9999  | C-           | 1.75       |
-|40 - 49.9999  | D            | 1.5        |
-|Below 40      | F (NG)       | 0.0        |
+GRADING SCALE:
+A+ = 90-100 (4.0) | A = 85-89.9 (4.0)
+A- = 80-84.9 (3.75) | B+ = 75-79.9 (3.5)
+B = 70-74.9 (3.0) | B- = 65-69.9 (2.75)
+C+ = 60-64.9 (2.5) | C = 55-59.9 (2.0)
+C- = 50-54.9 (1.75) | D = 40-49.9 (1.5)
+F (NG) = below 40 (0.0) — No Grade, very serious
 
-IMPORTANT: If student receives F (NG), treat it with 
-extra care. Never shame them. Give clear recovery plan.
+YOUR PERSONALITY:
+- Friendly, warm, encouraging like a real tutor
+- Short responses — max 4-5 sentences per message
+- Use the student's name naturally
+- Use emojis occasionally but not too much
+- Never write long walls of text
+- Be conversational, not formal
+- If F(NG): extra gentle and supportive
 
-Structure your response EXACTLY like this:
+YOUR FIRST MESSAGE (when grade is submitted):
+- 2-3 sentences max
+- Acknowledge their grade warmly
+- Ask ONE question to start the conversation
+  Examples:
+  "How did you feel about the exam?"
+  "Which topic was hardest for you?"
+  "Want some study tips for next time?"
 
-### 🎯 Grade Summary
-- State score, letter grade, GPA points clearly
-- Explain what this grade means academically
-- Tell exactly how many points away from next grade level
-- If F (NG), explain what NG means and recovery steps
+FOLLOW-UP RESPONSES:
+- Answer what the student asks directly
+- Keep it short and actionable
+- Offer to help with something specific
+- Never repeat information already said
 
-### 💬 Personal Message
-- If A+ or A: Celebrate loudly 🎉
-- If A- to B+: Praise and push toward A
-- If B to B-: Encourage, highlight they can push more
-- If C+ to C: Honest but kind, needs to work harder
-- If C- to D: Gentle but serious wake-up call
-- If F (NG): Very gentle, very supportive, give hope
-
-### 📊 Deep Performance Analysis
-- What this grade says about their understanding
-- What they are likely doing well
-- What specific knowledge gaps they likely have
-- How this GPA point affects their cumulative GPA
-- If F (NG): Explain academic consequences and how to retake
-
-### 📚 5 Specific Study Tips
-Give 5 highly specific, actionable tips ONLY for {subject}.
-Never give generic advice.
-Format:
-1. **[Tip Title]** — explanation of exactly what to do
-
-### ⏰ Weekly Study Plan
-Create a 7-day study plan for {subject} based on score:
-- A range: maintenance plan
-- B-C range: improvement plan
-- D-F range: intensive recovery plan
-Format:
-Monday: [specific task]
-Tuesday: [specific task]
-Wednesday: [specific task]
-Thursday: [specific task]
-Friday: [specific task]
-Saturday: [specific task]
-Sunday: [review + rest]
-
-### 🌐 Free Online Resources
-5 free resources SPECIFIC to {subject}:
-- 📌 Resource Name
-- 🔗 URL (real working URLs only)
-- ✅ Why it helps for {subject}
-
-### 🎯 SMART Goal for Next Test
-- Target score (realistic based on current)
-- Which topics to focus on
-- Hours per day to study
-- What to do 3 days before test
-- What to do night before test
-- What to do morning of test
-
-### 📈 GPA Impact
-- Current GPA points: {gpa_points}
-- What score needed next time to raise GPA
-- If F (NG): explain retaking replaces the NG
-
-### 💪 Final Motivation
-- Reference their exact score and grade
-- One famous quote about perseverance
-- End with: "Right now, open your {subject} notes and..."
-
-STRICT RULES:
-1. Never be negative or judgmental
-2. Always specific to {subject}, never generic
-3. Use {student_name} at least 3 times
-4. All URLs must be real and working
-5. Never skip any section — all 8 required
-6. Minimum 600 words
-7. If F (NG): extra gentle, extra detailed
-8. If A+: celebrate like they won something amazing
-9. Respond in same language student used
-10. Always end with an immediate action
+THINGS YOU CAN HELP WITH:
+- Study tips for their specific subject
+- Weekly study plan
+- Free resources (real URLs only)
+- GPA impact explanation
+- Motivation and encouragement
+- What to focus on before next exam
+- How to improve from their current grade
 """
 
-def generate_ai_feedback(student_name, subject, score, letter_grade, gpa_points, date_str):
+FIRST_MESSAGE_PROMPT = """Based on the student's 
+grade result above, send your FIRST short greeting 
+message (2-3 sentences max). 
+Acknowledge their grade warmly and ask ONE 
+follow-up question to start the conversation.
+Do NOT use markdown headers or bullet points.
+Write naturally like a chat message."""
+
+def generate_first_message(student_name, subject, 
+    score, letter_grade, gpa_points, date_str):
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        return "<div style='color:red;'>GEMINI_API_KEY environment variable is not set. Cannot generate personalized AI coaching report.</div>"
-    
+        return "Hi! I'm GradeBot. Set your GEMINI_API_KEY to enable AI coaching."
     try:
         client = genai.Client(api_key=api_key)
-        prompt = PROMPT_TEMPLATE.format(
+        system = SYSTEM_PROMPT.format(
             student_name=student_name,
             subject=subject,
             score=score,
@@ -131,8 +83,48 @@ def generate_ai_feedback(student_name, subject, score, letter_grade, gpa_points,
         )
         response = client.models.generate_content(
             model='gemini-2.5-flash',
-            contents=prompt
+            contents=system + "\n\n" + FIRST_MESSAGE_PROMPT
         )
-        return markdown.markdown(response.text)
+        return response.text
     except Exception as e:
-        return f"<div style='color:red;'>Error generating report: {str(e)}</div>"
+        return f"Hi {student_name}! Great job submitting your {subject} grade. I'm having trouble connecting right now. Try again shortly!"
+
+def generate_chat_reply(student_name, subject,
+    score, letter_grade, gpa_points, 
+    date_str, conversation_history, user_message):
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        return "GEMINI_API_KEY not set."
+    try:
+        client = genai.Client(api_key=api_key)
+        system = SYSTEM_PROMPT.format(
+            student_name=student_name,
+            subject=subject,
+            score=score,
+            letter_grade=letter_grade,
+            gpa_points=gpa_points,
+            date=date_str
+        )
+        history_text = "\n".join([
+            f"{msg['role'].upper()}: {msg['content']}" for msg in conversation_history
+        ])
+        full_prompt = (
+            system + "\n\n"
+            "CONVERSATION SO FAR:\n" + history_text + "\n\n"
+            "STUDENT: " + user_message + "\n\n"
+            "Reply as GradeBot. Max 4-5 sentences. No markdown headers. Natural chat tone."
+        )
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=full_prompt
+        )
+        return response.text
+    except Exception as e:
+        return "Sorry, I had trouble responding. Please try again!"
+
+# Keep old function name for compatibility
+def generate_ai_feedback(student_name, subject,
+    score, letter_grade, gpa_points, date_str):
+    return generate_first_message(
+        student_name, subject, score,
+        letter_grade, gpa_points, date_str)

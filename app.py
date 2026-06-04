@@ -14,7 +14,7 @@ from database import (
     get_grade_count,
     init_db,
 )
-from ai_feedback import generate_ai_feedback
+from ai_feedback import generate_ai_feedback, generate_chat_reply
 from export import export_grades_csv, export_grades_pdf
 
 app = Flask(__name__)
