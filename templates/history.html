@@ -1,51 +1,425 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="glass-panel">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h2 style="margin: 0;"><i class="fa-solid fa-clock-rotate-left"></i> Grade History</h2>
-        <div style="display: flex; gap: 0.5rem;">
-            <button onclick="window.print()" class="btn"><i class="fa-solid fa-file-pdf"></i> PDF Report</button>
-            <a href="{{ url_for('export_csv') }}" class="btn"><i class="fa-solid fa-file-csv"></i> CSV Export</a>
-            <a href="{{ url_for('clear_history') }}" class="btn btn-danger" onclick="return confirm('Clear all history?')"><i class="fa-solid fa-trash"></i> Clear All</a>
+
+<!-- Calculation Block for Live Dynamic Print Statistics -->
+{% set total_gpa_points = namespace(value=0.0) %}
+{% set total_credits = namespace(value=0) %}
+{% set total_score = namespace(value=0.0) %}
+{% if grades %}
+    {% for g in grades %}
+        {% set grade_credits = g.credits|int if g.credits is defined else 3 %}
+        {% set grade_gpa = g.gpa_points|float if g.gpa_points is defined else 0.0 %}
+        {% set total_gpa_points.value = total_gpa_points.value + (grade_gpa * grade_credits) %}
+        {% set total_credits.value = total_credits.value + grade_credits %}
+        {% set total_score.value = total_score.value + g.score|float %}
+    {% endfor %}
+{% endif %}
+
+{% if total_credits.value > 0 %}
+    {% set calculated_cgpa = (total_gpa_points.value / total_credits.value)|round(2) %}
+{% else %}
+    {% set calculated_cgpa = '0.00' %}
+{% endif %}
+
+{% if grades and grades|length > 0 %}
+    {% set calculated_avg = (total_score.value / grades|length)|round(1) %}
+{% else %}
+    {% set calculated_avg = '0.0' %}
+{% endif %}
+
+<style>
+    /* Premium Glassmorphic Layout Styles */
+    .history-card {
+        padding: 32px; 
+        border-radius: 20px; 
+        background: #ffffff; 
+        border: 1px solid var(--border, #e5e7eb);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+
+    .history-header {
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        margin-bottom: 28px;
+    }
+
+    /* Screen-only KPI preview panel */
+    .gpa-summary-bar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 28px;
+        background: var(--bg-secondary, #f9fafb);
+        border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px;
+        padding: 16px 24px;
+    }
+
+    .summary-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .summary-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary, #6b7280);
+    }
+
+    .summary-val {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--text-primary, #111827);
+    }
+
+    /* Search input row */
+    .search-row {
+        margin-bottom: 24px; 
+        display: flex; 
+        gap: 12px;
+    }
+
+    .search-input {
+        flex-grow: 1; 
+        padding: 10px 16px; 
+        border-radius: 10px; 
+        border: 1px solid var(--border, #e5e7eb); 
+        background: #ffffff; 
+        color: var(--text-primary, #111827);
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+        border-color: var(--primary, #6366f1);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    /* Sleek responsive data table details */
+    .history-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .history-table th {
+        padding: 14px 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary, #6b7280);
+        border-bottom: 1px solid var(--border, #e5e7eb);
+        background: var(--bg-secondary, #f9fafb);
+    }
+
+    .history-table td {
+        padding: 16px;
+        color: var(--text-primary, #111827);
+        border-bottom: 1px solid var(--border, #f3f4f6);
+        vertical-align: middle;
+    }
+
+    .history-table tr:hover {
+        background: rgba(99, 102, 241, 0.01);
+    }
+
+    /* Badge colors */
+    .badge-a, .badge-a\+ { background: #e6fbf2; color: #059669; }
+    .badge-b { background: #eff6ff; color: #2563eb; }
+    .badge-c { background: #fffbeb; color: #d97706; }
+    .badge-d, .badge-f { background: #fef2f2; color: #dc2626; }
+
+    .history-badge {
+        font-size: 12px; 
+        font-weight: 700; 
+        padding: 4px 10px; 
+        border-radius: 6px; 
+        text-transform: uppercase;
+        display: inline-block;
+    }
+
+    /* Print-Only elements are hidden on normal screens */
+    .print-only-header {
+        display: none;
+    }
+
+    /* =========================================================
+       EXCLUSIVE ACADEMIC TRANSCRIPT PRINT OVERRIDES
+       ========================================================= */
+    @media print {
+        /* Hide layout clutter */
+        nav, .navbar, .search-row, .btn, .nav-icon, #confirmModal, 
+        .history-header div, .history-table th:last-child, .history-table td:last-child {
+            display: none !important;
+        }
+
+        body {
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .history-card {
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+        }
+
+        /* Show clean, professional printed document heading */
+        .print-only-header {
+            display: block !important;
+            margin-bottom: 32px;
+            border-bottom: 2px solid #111827;
+            padding-bottom: 20px;
+        }
+
+        .print-logo-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .print-title {
+            font-size: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #111827;
+            margin: 0;
+        }
+
+        .print-meta-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            font-size: 13px;
+            color: #374151;
+            margin-bottom: 24px;
+        }
+
+        /* Cleaned Printed summary badges */
+        .print-summary-box {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 12px !important;
+            background: #f9fafb !important;
+            border: 1px solid #e5e7eb !important;
+            padding: 16px !important;
+            border-radius: 8px !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .gpa-summary-bar {
+            display: none !important; /* Hide standard screen card banner */
+        }
+
+        /* High contrast printed table */
+        .history-table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+        }
+
+        .history-table th {
+            background: #f3f4f6 !important;
+            color: #111827 !important;
+            border-bottom: 2px solid #374151 !important;
+            padding: 10px 12px !important;
+            font-size: 10px !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .history-table td {
+            padding: 12px !important;
+            border-bottom: 1px solid #e5e7eb !important;
+            color: #000000 !important;
+        }
+
+        /* Safe printable fallback colors for letter grades */
+        .history-badge {
+            border: 1px solid #374151 !important;
+            background: transparent !important;
+            color: #111827 !important;
+            padding: 2px 6px !important;
+            border-radius: 4px !important;
+            font-weight: bold !important;
+            font-size: 11px !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .history-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .search-row {
+            flex-direction: column;
+        }
+        .gpa-summary-bar {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            padding: 16px;
+        }
+    }
+</style>
+
+<div class="history-card">
+
+    <!-- ELITE TRANSCRIPT PRINT-ONLY HEADER -->
+    <div class="print-only-header">
+        <div class="print-logo-row">
+            <h1 class="print-title">Official Academic Transcript</h1>
+            <span style="font-size: 13px; font-weight: 700; color: var(--primary, #6366f1);">GradeEvaluator</span>
+        </div>
+        <div class="print-meta-grid">
+            <div>
+                <div style="margin-bottom: 4px;"><strong>Issued To:</strong> {{ session['user_name'] if 'user_name' in session else 'Registered Student' }}</div>
+                <div><strong>Institution Account:</strong> {{ session['user_email'] if 'user_email' in session else 'Active Academic Profile' }}</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="margin-bottom: 4px;"><strong>Date Generated:</strong> <span id="printDate"></span></div>
+                <div><strong>Status:</strong> Active Official Record</div>
+            </div>
+        </div>
+        
+        <div class="print-summary-box">
+            <div class="summary-item">
+                <span class="summary-label">Cumulative GPA</span>
+                <span class="summary-val" style="color: var(--primary, #6366f1);">{{ calculated_cgpa }}</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Total Credits</span>
+                <span class="summary-val">{{ total_credits.value }} Hours</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Average Score</span>
+                <span class="summary-val">{{ calculated_avg }}%</span>
+            </div>
         </div>
     </div>
 
-    <form method="GET" style="margin-bottom: 20px; display: flex; gap: 10px;">
-        <input type="text" name="search" placeholder="Search by subject or date..." value="{{ search }}" style="flex-grow: 1; padding: 0.85rem 1.25rem; border-radius: 8px; border: 1px solid rgba(148,163,184,0.4); background: rgba(255,255,255,0.05); color: var(--text-color);">
-        <button type="submit" class="btn"><i class="fa-solid fa-search"></i> Search</button>
+    <!-- STANDARD HEADER CONTROLS (SCREEN ONLY) -->
+    <div class="history-header">
+        <h2 style="margin: 0; font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 10px; color: var(--text-primary, #111827);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Grade History
+        </h2>
+        <div style="display: flex; gap: 10px;">
+            <button onclick="window.print()" class="btn btn-outline btn-sm" style="display: flex; align-items: center; gap: 6px; font-weight: 600;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> PDF Report
+            </button>
+            <a href="{{ url_for('export_csv') }}" class="btn btn-outline btn-sm" style="display: flex; align-items: center; gap: 6px; font-weight: 600;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> CSV Export
+            </a>
+            <a href="#" class="btn btn-sm" style="background: var(--danger, #ef4444); color: white; display: flex; align-items: center; gap: 6px; font-weight: 600; text-decoration: none;" onclick="openConfirmModal('Clear All History', 'Are you sure you want to delete all historical semester grades? This action cannot be undone.', '{{ url_for('clear_history') }}'); return false;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg> Clear All
+            </a>
+        </div>
+    </div>
+
+    <!-- SCREEN-ONLY LIVE METRICS HUB -->
+    <div class="gpa-summary-bar">
+        <div class="summary-item">
+            <span class="summary-label">Cumulative GPA (CGPA)</span>
+            <span class="summary-val" style="color: var(--primary, #6366f1);">{{ calculated_cgpa }}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Total Earned Credits</span>
+            <span class="summary-val">{{ total_credits.value }} Hours</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Weighted Average</span>
+            <span class="summary-val">{{ calculated_avg }}%</span>
+        </div>
+    </div>
+
+    <!-- FILTER FORM (SCREEN ONLY) -->
+    <form method="GET" class="search-row">
+        <input type="text" name="search" placeholder="Search by subject or date..." value="{{ search if search else '' }}" class="search-input">
+        <button type="submit" class="btn" style="background: var(--primary, #6366f1); color: white; padding: 10px 20px; font-weight: 600; border-radius: 10px; display: flex; align-items: center; gap: 8px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Search
+        </button>
     </form>
 
+    <!-- GRADES TABLE -->
     <div style="overflow-x: auto;">
         <table class="history-table">
             <thead>
                 <tr>
-                    <th>Date</th>
+                    <th style="border-top-left-radius: 10px;">Date</th>
                     <th>Subject</th>
                     <th>Score</th>
                     <th>Grade</th>
                     <th>GPA</th>
-                    <th>Action</th>
+                    <th style="border-top-right-radius: 10px; text-align: right; padding-right: 24px;">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for g in grades %}
                 <tr>
-                    <td>{{ g.date }}</td>
-                    <td>{{ g.subject }}</td>
-                    <td><strong>{{ g.score }}</strong></td>
-                    <td><span class="badge badge-{{ g.letter_grade[0]|lower }}">{{ g.letter_grade }}</span></td>
-                    <td><span style="font-weight: 600;">{{ g.gpa_points }}</span></td>
-                    <form method="POST" action="{{ url_for('delete_grade', grade_id=g.id) }}" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </form>
+                    <td style="font-weight: 500; color: var(--text-secondary, #6b7280);">{{ g.date }}</td>
+                    <td style="font-weight: 700; color: var(--text-primary, #111827);">{{ g.subject }}</td>
+                    <td><strong style="color: var(--text-primary, #111827); font-size: 15px;">{{ g.score }}</strong><span style="font-size: 11px; color: var(--text-tertiary, #9ca3af);">/100</span></td>
+                    <td><span class="history-badge badge-{{ g.letter_grade[0]|lower }}">{{ g.letter_grade }}</span></td>
+                    <td><span style="font-weight: 700; color: var(--primary, #6366f1);">{{ g.gpa_points }}</span></td>
+                    <td style="text-align: right; padding-right: 24px;">
+                        <form method="POST" action="{{ url_for('delete_grade', grade_id=g.id) }}" style="display:inline;" onsubmit="return confirm('Delete this grade record?');">
+                            <button type="submit" class="nav-icon" style="color: var(--danger, #ef4444); background: rgba(239, 68, 68, 0.05); padding: 8px; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background 0.2s;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 {% else %}
-                <tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">No grades found. Start by evaluating a grade!</td></tr>
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 48px 0; color: var(--text-tertiary, #9ca3af);">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                            <span style="font-size: 14px; font-weight: 500;">No grades found. Start by evaluating a grade!</span>
+                        </div>
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    // Dynamically insert current localized date into printed PDF report
+    document.addEventListener("DOMContentLoaded", function() {
+        const dateSpan = document.getElementById("printDate");
+        if (dateSpan) {
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            dateSpan.textContent = today.toLocaleDateString(undefined, options);
+        }
+    });
+</script>
+
 {% endblock %}

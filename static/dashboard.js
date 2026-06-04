@@ -68,10 +68,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function addMessage(content, role) {
         const div = document.createElement('div');
         div.className = 'chat-msg ' + (role === 'user' ? 'chat-msg-user' : 'chat-msg-bot');
-        if (role === 'assistant' || role === 'bot') {
-            div.innerHTML = content;
-        } else {
+        if (role === 'user') {
             div.textContent = content;
+        } else {
+            // Markdown: **bold**, *italic*, ~small~
+            let formatted = content
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                .replace(/~(.+?)~/g, '<small>$1</small>');
+            div.innerHTML = formatted;
         }
         chatMessages.appendChild(div);
         scrollToBottom();
