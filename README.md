@@ -71,9 +71,19 @@
 
 ## 📸 Screenshots
 
-| Dashboard Analytics | Dark Mode UI |
+*(Replace these links with the image links you get from uploading screenshots to a GitHub issue)*
+
+| Dashboard Analytics | AI Academic Report |
 | :---: | :---: |
-| <img src=".github/assets/dashboard.png" width="400"/> | <img src=".github/assets/dark_dashboard.png" width="400"/> |
+| <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_1" width="400"/> | <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_2" width="400"/> |
+
+| Dark Mode UI | Print-Ready Transcript |
+| :---: | :---: |
+| <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_3" width="400"/> | <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_4" width="400"/> |
+
+| User Profile | Chatbot Interaction |
+| :---: | :---: |
+| <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_5" width="400"/> | <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_6" width="400"/> |
 
 ## 🤝 Contributing
 
