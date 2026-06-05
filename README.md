@@ -71,17 +71,9 @@
 
 ## 📸 Screenshots
 
-*(Replace these with actual repository screenshots)*
-| Dashboard Analytics | AI Academic Report |
+| Dashboard Analytics | Dark Mode UI |
 | :---: | :---: |
-| <img src="https://via.placeholder.com/600x400.png?text=Dashboard+Analytics" width="400"/> | <img src="https://via.placeholder.com/600x400.png?text=AI+Academic+Report" width="400"/> |
-
-| Dark Mode UI | Print-Ready Transcript |
-| :---: | :---: |
-| <img src="https://via.placeholder.com/600x400.png?text=Dark+Mode+UI" width="400"/> | <img src="https://via.placeholder.com/600x400.png?text=PDF+Transcript" width="400"/> |
-| User Profile | Chatbot Interaction |
-| :---: | :---: |
-| <img src="https://via.placeholder.com/600x400.png?text=User+Profile" width="400"/> | <img src="https://via.placeholder.com/600x400.png?text=Chatbot+Interaction" width="400"/> |
+| <img src=".github/assets/dashboard.png" width="400"/> | <img src=".github/assets/dark_dashboard.png" width="400"/> |
 
 ## 🤝 Contributing
 
