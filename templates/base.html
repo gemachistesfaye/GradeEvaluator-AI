@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,8 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <!-- Favicon (emoji) -->
     <link rel="icon" href="{{ url_for('static', filename='logo.svg') }}">
     <!-- Styles -->
@@ -15,11 +17,12 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ url_for('static', filename='charts.js') }}" defer></script>
-    
+
     <style>
         /* Modern Glassmorphic Navbar Styling */
         .navbar {
-            padding: 12px 0; /* Vertical padding only; horizontal is handled by container */
+            padding: 12px 0;
+            /* Vertical padding only; horizontal is handled by container */
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -27,7 +30,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
         }
 
         /* Constrained Nav Container (Aligns perfectly with Main Content) */
@@ -54,7 +57,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 1.5; /* Takes up more visual weight in the center */
+            flex: 1.5;
+            /* Takes up more visual weight in the center */
         }
 
         .nav-right {
@@ -217,7 +221,8 @@
             transition: all 0.2s;
         }
 
-        .avatar-link:hover, .avatar-active {
+        .avatar-link:hover,
+        .avatar-active {
             border-color: var(--primary, #6366f1);
             transform: scale(1.03);
         }
@@ -277,13 +282,27 @@
 
         /* Animations */
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes modalEntrance {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
         /* Alert Styling */
@@ -294,33 +313,53 @@
             font-size: 14px;
             font-weight: 500;
         }
-        .alert-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
-        .alert-error, .alert-danger { background: #fef2f2; color: #991b1b; border: 1px solid #fca5a5; }
+
+        .alert-success {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-error,
+        .alert-danger {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
 
         /* Responsive Mobile Layout adjustments */
         @media (max-width: 992px) {
             .nav-links-group {
                 gap: 4px;
             }
+
             .nav-link {
                 padding: 6px 10px;
                 font-size: 13px;
             }
+
             .nav-search-form {
                 max-width: 240px;
             }
+
             .nav-search-form:focus-within {
                 max-width: 280px;
             }
         }
 
         @media (max-width: 768px) {
-            .nav-links-group, .nav-center {
-                display: none; /* Safely collapse navigation & search on mobile */
+
+            .nav-links-group,
+            .nav-center {
+                display: none;
+                /* Safely collapse navigation & search on mobile */
             }
-            .nav-left, .nav-right {
+
+            .nav-left,
+            .nav-right {
                 flex: initial;
             }
+
             .hamburger {
                 display: block !important;
             }
@@ -336,8 +375,9 @@
             background-color: var(--bg-primary) !important;
             color: var(--text-primary) !important;
         }
-        body.dark-theme .card, 
-        body.dark-theme .navbar, 
+
+        body.dark-theme .card,
+        body.dark-theme .navbar,
         body.dark-theme .notif-item,
         body.dark-theme .profile-menu,
         body.dark-theme .profile-card,
@@ -351,43 +391,60 @@
             border-color: var(--border) !important;
             color: var(--text-primary) !important;
         }
-        body.dark-theme h1, body.dark-theme h2, body.dark-theme h3, body.dark-theme h4 {
+
+        body.dark-theme h1,
+        body.dark-theme h2,
+        body.dark-theme h3,
+        body.dark-theme h4 {
             color: var(--text-primary) !important;
         }
-        body.dark-theme p, body.dark-theme label, body.dark-theme .nav-icon {
+
+        body.dark-theme p,
+        body.dark-theme label,
+        body.dark-theme .nav-icon {
             color: var(--text-secondary) !important;
         }
-        body.dark-theme input, 
+
+        body.dark-theme input,
         body.dark-theme select,
         body.dark-theme .form-input {
             background: #334155 !important;
             color: #f8fafc !important;
             border-color: #475569 !important;
         }
+
         body.dark-theme .nav-search-input {
-            background: rgba(255,255,255,0.05) !important;
+            background: rgba(255, 255, 255, 0.05) !important;
             color: #ffffff !important;
-            border-color: rgba(255,255,255,0.1) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
         }
+
         body.dark-theme .nav-link {
             color: var(--text-secondary) !important;
         }
-        body.dark-theme .nav-link:hover, body.dark-theme .nav-link.active {
+
+        body.dark-theme .nav-link:hover,
+        body.dark-theme .nav-link.active {
             color: var(--primary, #818cf8) !important;
             background: rgba(99, 102, 241, 0.15) !important;
         }
+
         body.dark-theme .btn-outline {
             border-color: var(--border) !important;
             color: var(--text-primary) !important;
         }
-        body.dark-theme .btn-outline:hover, body.dark-theme .profile-menu-item:hover {
-            background: rgba(255,255,255,0.05) !important;
+
+        body.dark-theme .btn-outline:hover,
+        body.dark-theme .profile-menu-item:hover {
+            background: rgba(255, 255, 255, 0.05) !important;
         }
+
         body.dark-theme .chart-grid .card {
             background: var(--bg-secondary) !important;
         }
     </style>
 </head>
+
 <body>
 
     <!-- Top Navbar -->
@@ -396,17 +453,20 @@
             <!-- Left Column: Branding and tightly aligned Nav links -->
             <div class="nav-left">
                 <a href="{{ url_for('dashboard') }}" class="nav-brand">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                        <path d="M6 12v5c3 3 9 3 12 0v-5" />
                     </svg>
                     <span>GradeEvaluator AI</span>
                 </a>
-                
+
                 {% if 'user_id' in session %}
                 <div class="nav-links-group">
-                    <a href="{{ url_for('dashboard') }}" class="nav-link {{ 'active' if request.endpoint == 'dashboard' else '' }}">Overview</a>
-                    <a href="{{ url_for('history') }}" class="nav-link {{ 'active' if request.endpoint == 'history' else '' }}">Course History</a>
+                    <a href="{{ url_for('dashboard') }}"
+                        class="nav-link {{ 'active' if request.endpoint == 'dashboard' else '' }}">Overview</a>
+                    <a href="{{ url_for('history') }}"
+                        class="nav-link {{ 'active' if request.endpoint == 'history' else '' }}">Course History</a>
                 </div>
                 {% endif %}
             </div>
@@ -416,11 +476,14 @@
             <div class="nav-center">
                 <form action="{{ url_for('history') }}" method="GET" class="nav-search-form">
                     <span class="nav-search-icon">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
                         </svg>
                     </span>
-                    <input type="text" name="q" class="nav-search-input" placeholder="Search subject or grade..." aria-label="Search grades">
+                    <input type="text" name="q" class="nav-search-input" placeholder="Search subject or grade..."
+                        aria-label="Search grades">
                 </form>
             </div>
 
@@ -434,9 +497,11 @@
                 <!-- Semester Switcher Form dropdown -->
                 {% if semesters %}
                 <form id="semesterSwitcher" method="POST" style="margin-right: 4px;">
-                    <select name="semester" onchange="switchSemester(this.value)" style="background: #ffffff; color: var(--text-primary, #111827); border: 1px solid var(--border, #e5e7eb); border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 500; cursor: pointer; outline: none;">
+                    <select name="semester" onchange="switchSemester(this.value)"
+                        style="background: #ffffff; color: var(--text-primary, #111827); border: 1px solid var(--border, #e5e7eb); border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 500; cursor: pointer; outline: none;">
                         {% for s in semesters %}
-                        <option value="{{ s }}" {% if s == session.get('active_semester') %}selected{% endif %}>{{ s }}</option>
+                        <option value="{{ s }}" {% if s==session.get('active_semester') %}selected{% endif %}>{{ s }}
+                        </option>
                         {% endfor %}
                     </select>
                 </form>
@@ -445,82 +510,108 @@
                 <!-- Removed Quick Add Course button to declutter nav -->
 
                 <!-- Notifications Center -->
-                <a href="{{ url_for('notifications') }}" class="nav-icon" title="Notifications Hub" style="position: relative;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                <a href="{{ url_for('notifications') }}" class="nav-icon" title="Notifications Hub"
+                    style="position: relative;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                     </svg>
-                    <span class="badge" id="notifCount" style="position: absolute; top: 2px; right: 2px; background: var(--danger, #ef4444); color: #fff; border-radius: 50%; width: 6px; height: 6px; display: none;"></span>
+                    <span class="badge" id="notifCount"
+                        style="position: absolute; top: 2px; right: 2px; background: var(--danger, #ef4444); color: #fff; border-radius: 50%; width: 6px; height: 6px; display: none;"></span>
                 </a>
 
                 <!-- Clickable User Profile Avatar dropdown container -->
                 <div class="avatar-container">
-                    <button id="avatarTrigger" class="avatar-link {{ 'avatar-active' if request.endpoint == 'profile' else '' }}" aria-haspopup="true" aria-label="Account Settings Menu">
+                    <button id="avatarTrigger"
+                        class="avatar-link {{ 'avatar-active' if request.endpoint == 'profile' else '' }}"
+                        aria-haspopup="true" aria-label="Account Settings Menu">
                         {{ session['user_name'][:2]|upper }}
                     </button>
-                    
+
                     <!-- Popover profile navigation overlay -->
                     <div id="profileMenu" class="profile-menu">
                         <div class="profile-menu-header">
-                            <div style="font-weight: 600; font-size: 14px; color: var(--text-primary, #111827); margin-bottom: 2px;">{{ session['user_name'] }}</div>
+                            <div
+                                style="font-weight: 600; font-size: 14px; color: var(--text-primary, #111827); margin-bottom: 2px;">
+                                {{ session['user_name'] }}</div>
                             <div style="font-size: 12px; color: var(--text-secondary, #6b7280);">Student Account</div>
                         </div>
-                        
+
                         <!-- Profile Settings option -->
                         <a href="{{ url_for('profile') }}" class="profile-menu-item">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
                             </svg>
                             Profile Settings
                         </a>
 
                         <!-- Consolidated Quick GPA Calculator -->
-                        <a href="#" class="profile-menu-item" onclick="openGlobalModal('globalGpaModal'); return false;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2l4 8h8l-6 6 2 8L12 16l-5.5 4 2-7L3 9h7z"/>
+                        <a href="#" class="profile-menu-item"
+                            onclick="openGlobalModal('globalGpaModal'); return false;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2l4 8h8l-6 6 2 8L12 16l-5.5 4 2-7L3 9h7z" />
                             </svg>
                             Quick GPA Calculator
                         </a>
 
                         <!-- Export Grades Option -->
                         <a href="{{ url_for('export_pdf') }}" class="profile-menu-item">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="12" y1="18" x2="12" y2="12" />
+                                <polyline points="9 15 12 18 15 15" />
                             </svg>
                             Export Grades (PDF)
                         </a>
 
                         <!-- Consolidated Global Settings -->
                         <a href="{{ url_for('settings') }}" class="profile-menu-item">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="3"/>
-                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
                             </svg>
                             Global Settings
                         </a>
 
                         <!-- Theme Settings Option -->
-                        <a href="#" class="profile-menu-item" onclick="selectTheme(localStorage.getItem('theme') || 'dark'); openGlobalModal('globalThemeModal'); return false;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        <a href="#" class="profile-menu-item"
+                            onclick="selectTheme(localStorage.getItem('theme') || 'dark'); openGlobalModal('globalThemeModal'); return false;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                             </svg>
                             Theme Preferences
                         </a>
 
                         <!-- Consolidated Help Option -->
-                        <a href="#" class="profile-menu-item" onclick="openGlobalModal('globalHelpModal'); return false;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="16"/><path d="M12 12a2 2 0 1 0-2-2"/>
+                        <a href="#" class="profile-menu-item"
+                            onclick="openGlobalModal('globalHelpModal'); return false;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="16" x2="12" y2="16" />
+                                <path d="M12 12a2 2 0 1 0-2-2" />
                             </svg>
                             Academic Help
                         </a>
 
                         <!-- Logout Button -->
-                        <a href="#" onclick="openConfirmModal('Log Out','Are you sure you want to log out of your account?','{{ url_for('logout') }}'); return false;" class="profile-menu-item logout">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                                <polyline points="16 17 21 12 16 7"/>
-                                <line x1="21" y1="12" x2="9" y2="12"/>
+                        <a href="#"
+                            onclick="openConfirmModal('Log Out','Are you sure you want to log out of your account?','{{ url_for('logout') }}'); return false;"
+                            class="profile-menu-item logout">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <polyline points="16 17 21 12 16 7" />
+                                <line x1="21" y1="12" x2="9" y2="12" />
                             </svg>
                             Logout
                         </a>
@@ -530,19 +621,24 @@
 
 
                 <!-- Hamburger menu for mobile scaling -->
-                <button id="navToggle" class="hamburger" aria-label="Open Navigation Menu" style="background: none; border: none; color: var(--text-secondary, #4b5563); font-size: 22px; cursor: pointer; display: none; margin-left: 4px;">☰</button>
+                <button id="navToggle" class="hamburger" aria-label="Open Navigation Menu"
+                    style="background: none; border: none; color: var(--text-secondary, #4b5563); font-size: 22px; cursor: pointer; display: none; margin-left: 4px;">☰</button>
             </div>
             {% else %}
             <div class="nav-right">
-                <a href="{{ url_for('login') }}" class="btn btn-ghost" style="font-size:14px; text-decoration:none; color:var(--text-secondary,#4b5563); padding:8px 16px;">Login</a>
-                <a href="{{ url_for('register') }}" class="btn btn-sm" style="font-size:14px; text-decoration:none; background:var(--primary,#6366f1); color:white; padding:8px 16px; border-radius:8px; font-weight:500;">Get Started</a>
+                <a href="{{ url_for('login') }}" class="btn btn-ghost"
+                    style="font-size:14px; text-decoration:none; color:var(--text-secondary,#4b5563); padding:8px 16px;">Login</a>
+                <a href="{{ url_for('register') }}" class="btn btn-sm"
+                    style="font-size:14px; text-decoration:none; background:var(--primary,#6366f1); color:white; padding:8px 16px; border-radius:8px; font-weight:500;">Get
+                    Started</a>
             </div>
             {% endif %}
         </div>
     </nav>
 
     <!-- Main Content Grid -->
-    <main class="container" style="padding-top: 40px; padding-bottom: 60px; max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px;">
+    <main class="container"
+        style="padding-top: 40px; padding-bottom: 60px; max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px;">
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -559,505 +655,595 @@
     </main>
 
     <!-- Global Quick GPA Calculator Modal -->
-    <div id="globalGpaModal" style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px;">
-        <div class="card" style="width: 100%; max-width: 450px; padding: 32px; background: #ffffff; border-radius: 16px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.1); animation: modalEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+    <div id="globalGpaModal"
+        style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px;">
+        <div class="card"
+            style="width: 100%; max-width: 450px; padding: 32px; background: #ffffff; border-radius: 16px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.1); animation: modalEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary, #111827); margin: 0; display: flex; align-items: center; gap: 8px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary, #6366f1);"><path d="M12 2l4 8h8l-6 6 2 8L12 16l-5.5 4 2-7L3 9h7z"/></svg>
+                <h3
+                    style="font-size: 18px; font-weight: 700; color: var(--text-primary, #111827); margin: 0; display: flex; align-items: center; gap: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary, #6366f1);">
+                        <path d="M12 2l4 8h8l-6 6 2 8L12 16l-5.5 4 2-7L3 9h7z" />
+                    </svg>
                     Quick GPA Calculator
                 </h3>
-                <button onclick="closeGlobalModal('globalGpaModal')" style="background: none; border: none; font-size: 20px; color: var(--text-secondary, #6b7280); cursor: pointer;">&times;</button>
+                <button onclick="closeGlobalModal('globalGpaModal')"
+                    style="background: none; border: none; font-size: 20px; color: var(--text-secondary, #6b7280); cursor: pointer;">&times;</button>
             </div>
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary, #4b5563); margin-bottom: 8px;">Current GPA</label>
-                <input type="number" id="qgpaCurrent" placeholder="e.g. 3.5" step="0.01" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border, #e5e7eb); outline: none;">
+                <input type="number" id="qgpaCurrent" placeholder="e.g. 3.5" step="0.01"
+                    style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border, #e5e7eb); outline: none;">
             </div>
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary, #4b5563); margin-bottom: 8px;">Target GPA</label>
-                <input type="number" id="qgpaTarget" placeholder="e.g. 3.8" step="0.01" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border, #e5e7eb); outline: none;">
+                <input type="number" id="qgpaTarget" placeholder="e.g. 3.8" step="0.01"
+                    style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border, #e5e7eb); outline: none;">
             </div>
-            <button class="btn" style="width: 100%; justify-content: center; background: var(--primary, #6366f1); color: white; padding: 12px; border-radius: 8px; font-weight: 600; border: none; cursor: pointer;" onclick="calculateQuickGpa()">Calculate Needed GPA</button>
-            <div id="qgpaResult" style="margin-top: 20px; padding: 16px; border-radius: 8px; background: var(--bg-secondary, #f9fafb); text-align: center; font-size: 14px; font-weight: 500; color: var(--text-primary, #111827); display: none;"></div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary, #4b5563); margin-bottom: 8px;">Completed Credits</label>
+                <input type="number" id="qgpaCompletedCredits" placeholder="e.g. 60" step="1"
+                    style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border, #e5e7eb); outline: none;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary, #4b5563); margin-bottom: 8px;">Remaining Credits</label>
+                <input type="number" id="qgpaRemainingCredits" placeholder="e.g. 30" step="1"
+                    style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border, #e5e7eb); outline: none;">
+            </div>
+            <button class="btn"
+                style="width: 100%; justify-content: center; background: var(--primary, #6366f1); color: white; padding: 12px; border-radius: 8px; font-weight: 600; border: none; cursor: pointer;"
+                onclick="calculateQuickGpa()">Calculate Needed GPA</button>
+            <div id="qgpaResult"
+                style="margin-top: 20px; padding: 16px; border-radius: 8px; background: var(--bg-secondary, #f9fafb); text-align: center; font-size: 14px; font-weight: 500; color: var(--text-primary, #111827); display: none;">
+            </div>
         </div>
     </div>
 
     <!-- Global Academic Help Modal -->
-    <div id="globalHelpModal" style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px;">
-        <div class="card" style="width: 100%; max-width: 500px; padding: 32px; background: #ffffff; border-radius: 16px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.1); animation: modalEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+    <div id="globalHelpModal"
+        style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px;">
+        <div class="card"
+            style="width: 100%; max-width: 500px; padding: 32px; background: #ffffff; border-radius: 16px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.1); animation: modalEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary, #111827); margin: 0; display: flex; align-items: center; gap: 8px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary, #6366f1);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="16"/><path d="M12 12a2 2 0 1 0-2-2"/></svg>
+                <h3
+                    style="font-size: 18px; font-weight: 700; color: var(--text-primary, #111827); margin: 0; display: flex; align-items: center; gap: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary, #6366f1);">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="16" />
+                        <path d="M12 12a2 2 0 1 0-2-2" />
+                    </svg>
                     Academic Help & Resources
                 </h3>
-                <button onclick="closeGlobalModal('globalHelpModal')" style="background: none; border: none; font-size: 20px; color: var(--text-secondary, #6b7280); cursor: pointer;">&times;</button>
+                <button onclick="closeGlobalModal('globalHelpModal')"
+                    style="background: none; border: none; font-size: 20px; color: var(--text-secondary, #6b7280); cursor: pointer;">&times;</button>
             </div>
-            <div style="line-height: 1.6; color: var(--text-secondary, #4b5563); font-size: 14px; max-height: 60vh; overflow-y: auto; padding-right: 4px;">
-                <p style="margin-top: 0;">Welcome to <strong>GradeEvaluator AI</strong>! Here are advanced strategies to maximize your academic performance:</p>
-                <div style="margin-top: 16px; padding: 16px; background: rgba(99, 102, 241, 0.05); border-left: 4px solid var(--primary, #6366f1); border-radius: 4px;">
-                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">🤖 AI Predictive Insights</h4>
-                    <p style="margin: 0; font-size: 13px;">Use the "Generate New Analysis" button on your dashboard to let GradeBot analyze your historical grading curve and predict future performance.</p>
+            <div style="line-height: 1.6; color: var(--text-secondary, #4b5563); font-size: 14px;">
+                <p style="margin-top: 0;">Welcome to <strong>GradeEvaluator AI Pro</strong>! Here are advanced
+                    strategies to maximize your academic performance:</p>
+                <div
+                    style="margin-top: 16px; padding: 16px; background: rgba(99, 102, 241, 0.05); border-left: 4px solid var(--primary, #6366f1); border-radius: 4px;">
+                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">🤖 AI
+                        Predictive Insights</h4>
+                    <p style="margin: 0; font-size: 13px;">Use the "Generate New Analysis" button on your dashboard to
+                        let GradeBot analyze your historical grading curve and predict future performance.</p>
                 </div>
-                <div style="margin-top: 12px; padding: 16px; background: rgba(16, 185, 129, 0.05); border-left: 4px solid #10b981; border-radius: 4px;">
-                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">📈 Semester Goal Tracking</h4>
-                    <p style="margin: 0; font-size: 13px;">The Quick GPA Calculator instantly determines the exact letter grades you need in your remaining courses to hit your Target CGPA.</p>
+                <div
+                    style="margin-top: 12px; padding: 16px; background: rgba(16, 185, 129, 0.05); border-left: 4px solid #10b981; border-radius: 4px;">
+                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">📈 Semester
+                        Goal Tracking</h4>
+                    <p style="margin: 0; font-size: 13px;">The Quick GPA Calculator instantly determines the exact
+                        letter grades you need in your remaining courses to hit your Target CGPA.</p>
                 </div>
-                <div style="margin-top: 12px; padding: 16px; background: rgba(245, 158, 11, 0.05); border-left: 4px solid #f59e0b; border-radius: 4px;">
-                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">🌙 Study Environments</h4>
-                    <p style="margin: 0; font-size: 13px;">Enable Dark Mode in Theme Preferences to reduce eye strain during late-night study sessions and report analysis.</p>
-                </div>
-                <div style="margin-top: 12px; padding: 16px; background: rgba(239, 68, 68, 0.05); border-left: 4px solid #ef4444; border-radius: 4px;">
-                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">💬 GradeBot Chat Assistant</h4>
-                    <p style="margin: 0; font-size: 13px;">Click the floating chat button on any page to open GradeBot. Select a specific course from the dropdown to get personalised grade feedback, improvement tips, and study strategies tailored to that subject.</p>
-                </div>
-                <div style="margin-top: 12px; padding: 16px; background: rgba(139, 92, 246, 0.05); border-left: 4px solid #8b5cf6; border-radius: 4px;">
-                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">📋 Grade History &amp; Search</h4>
-                    <p style="margin: 0; font-size: 13px;">Visit the Course History page to search, filter, and review all your past grades. You can delete individual records or clear an entire semester — keeping your transcript clean and accurate.</p>
-                </div>
-                <div style="margin-top: 12px; padding: 16px; background: rgba(20, 184, 166, 0.05); border-left: 4px solid #14b8a6; border-radius: 4px;">
-                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">📄 Export Your Transcript</h4>
-                    <p style="margin: 0; font-size: 13px;">Download your full academic record as a professionally formatted <strong>PDF</strong> or a <strong>CSV spreadsheet</strong> from the Grade History page. Use the PDF report for official submissions or advisor meetings.</p>
-                </div>
-                <div style="margin-top: 12px; padding: 16px; background: rgba(236, 72, 153, 0.05); border-left: 4px solid #ec4899; border-radius: 4px;">
-                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">🔔 Notifications &amp; Milestones</h4>
-                    <p style="margin: 0; font-size: 13px;">Check the Notifications Hub regularly for achievement milestones, GPA alerts, and personalised academic tips generated based on your latest performance trends.</p>
+                <div
+                    style="margin-top: 12px; padding: 16px; background: rgba(245, 158, 11, 0.05); border-left: 4px solid #f59e0b; border-radius: 4px;">
+                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">🌙 Study
+                        Environments</h4>
+                    <p style="margin: 0; font-size: 13px;">Enable Dark Mode in Theme Preferences to reduce eye strain
+                        during late-night study sessions and report analysis.</p>
                 </div>
             </div>
-            <button class="btn" style="width: 100%; justify-content: center; background: var(--bg-secondary, #f3f4f6); color: var(--text-primary, #111827); padding: 12px; border-radius: 8px; font-weight: 600; margin-top: 24px; border: 1px solid var(--border, #e5e7eb); cursor: pointer;" onclick="closeGlobalModal('globalHelpModal')">Got it, thanks!</button>
+            <button class="btn"
+                style="width: 100%; justify-content: center; background: var(--bg-secondary, #f3f4f6); color: var(--text-primary, #111827); padding: 12px; border-radius: 8px; font-weight: 600; margin-top: 24px; border: 1px solid var(--border, #e5e7eb); cursor: pointer;"
+                onclick="closeGlobalModal('globalHelpModal')">Got it, thanks!</button>
         </div>
     </div>
 
     <!-- Global Theme Preferences Modal -->
-    <div id="globalThemeModal" style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px;">
-        <div class="card" style="width: 100%; max-width: 400px; padding: 32px; background: #ffffff; border-radius: 16px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.1); animation: modalEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+    <div id="globalThemeModal"
+        style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px;">
+        <div class="card"
+            style="width: 100%; max-width: 400px; padding: 32px; background: #ffffff; border-radius: 16px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.1); animation: modalEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary, #111827); margin: 0; display: flex; align-items: center; gap: 8px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary, #6366f1);"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <h3
+                    style="font-size: 18px; font-weight: 700; color: var(--text-primary, #111827); margin: 0; display: flex; align-items: center; gap: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary, #6366f1);">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
                     Theme Preferences
                 </h3>
-                <button onclick="closeGlobalModal('globalThemeModal')" style="background: none; border: none; font-size: 20px; color: var(--text-secondary, #6b7280); cursor: pointer;">&times;</button>
+                <button onclick="closeGlobalModal('globalThemeModal')"
+                    style="background: none; border: none; font-size: 20px; color: var(--text-secondary, #6b7280); cursor: pointer;">&times;</button>
             </div>
-            
+
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px;">
-                <button onclick="selectTheme('light')" class="btn btn-outline" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px 8px; border-radius: 12px; border: 2px solid var(--border, #e5e7eb); cursor: pointer; transition: all 0.2s;" id="btnThemeLight">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <button onclick="selectTheme('light')" class="btn btn-outline"
+                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px 8px; border-radius: 12px; border: 2px solid var(--border, #e5e7eb); cursor: pointer; transition: all 0.2s;"
+                    id="btnThemeLight">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5" />
+                        <path
+                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
                     <span style="font-weight: 600; font-size: 13px;">Light Mode</span>
                 </button>
-                <button onclick="selectTheme('dark')" class="btn btn-outline" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px 8px; border-radius: 12px; border: 2px solid var(--border, #e5e7eb); cursor: pointer; transition: all 0.2s;" id="btnThemeDark">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <button onclick="selectTheme('dark')" class="btn btn-outline"
+                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px 8px; border-radius: 12px; border: 2px solid var(--border, #e5e7eb); cursor: pointer; transition: all 0.2s;"
+                    id="btnThemeDark">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
                     <span style="font-weight: 600; font-size: 13px;">Dark Mode</span>
                 </button>
-                <button onclick="selectTheme('system')" class="btn btn-outline" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px 8px; border-radius: 12px; border: 2px solid var(--border, #e5e7eb); cursor: pointer; transition: all 0.2s;" id="btnThemeSystem">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <button onclick="selectTheme('system')" class="btn btn-outline"
+                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px 8px; border-radius: 12px; border: 2px solid var(--border, #e5e7eb); cursor: pointer; transition: all 0.2s;"
+                    id="btnThemeSystem">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
                     <span style="font-weight: 600; font-size: 13px;">System</span>
                 </button>
             </div>
-            <button class="btn" style="width: 100%; justify-content: center; background: var(--bg-secondary, #f3f4f6); color: var(--text-primary, #111827); padding: 12px; border-radius: 8px; font-weight: 600; border: 1px solid var(--border, #e5e7eb); cursor: pointer;" onclick="applyTheme()">Done</button>
+            <button class="btn"
+                style="width: 100%; justify-content: center; background: var(--bg-secondary, #f3f4f6); color: var(--text-primary, #111827); padding: 12px; border-radius: 8px; font-weight: 600; border: 1px solid var(--border, #e5e7eb); cursor: pointer;"
+                onclick="applyTheme()">Done</button>
         </div>
     </div>
 
     <!-- Global Action Confirmation Modal -->
-    <div id="confirmModal" style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px;">
-        <div class="card" style="width: 100%; max-width: 400px; padding: 32px; text-align: center; background: #ffffff; border-radius: 16px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.1); animation: modalEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+    <div id="confirmModal"
+        style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px;">
+        <div class="card"
+            style="width: 100%; max-width: 400px; padding: 32px; text-align: center; background: #ffffff; border-radius: 16px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.1); animation: modalEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
             <div style="font-size: 44px; margin-bottom: 16px;">⚠️</div>
-            <h3 id="confirmTitle" style="font-size: 20px; font-weight: 700; margin-bottom: 12px; color: var(--text-primary, #111827);">Are you sure?</h3>
-            <p id="confirmMessage" style="color: var(--text-secondary, #4b5563); font-size: 14px; line-height: 1.5; margin-bottom: 32px;">This action cannot be undone.</p>
+            <h3 id="confirmTitle"
+                style="font-size: 20px; font-weight: 700; margin-bottom: 12px; color: var(--text-primary, #111827);">Are
+                you sure?</h3>
+            <p id="confirmMessage"
+                style="color: var(--text-secondary, #4b5563); font-size: 14px; line-height: 1.5; margin-bottom: 32px;">
+                This action cannot be undone.</p>
             <div style="display: flex; gap: 12px; justify-content: center;">
-                <button onclick="closeConfirmModal()" class="btn btn-outline" style="flex: 1; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border, #e5e7eb); background: transparent; cursor: pointer; font-weight: 500;">Cancel</button>
-                <a id="confirmActionBtn" href="#" class="btn" style="flex: 1; padding: 10px 16px; border-radius: 8px; background: var(--danger, #ef4444); color: #ffffff; text-decoration: none; display: flex; align-items: center; justify-content: center; font-weight: 500;">Yes, confirm</a>
+                <button onclick="closeConfirmModal()" class="btn btn-outline"
+                    style="flex: 1; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border, #e5e7eb); background: transparent; cursor: pointer; font-weight: 500;">Cancel</button>
+                <a id="confirmActionBtn" href="#" class="btn"
+                    style="flex: 1; padding: 10px 16px; border-radius: 8px; background: var(--danger, #ef4444); color: #ffffff; text-decoration: none; display: flex; align-items: center; justify-content: center; font-weight: 500;">Yes,
+                    confirm</a>
             </div>
         </div>
     </div>
 
     <!-- Layout Logic Scripts -->
     <script>
-    // Robust dropdown click activation
-    const avatarTrigger = document.getElementById('avatarTrigger');
-    const profileMenu = document.getElementById('profileMenu');
-
-    if (avatarTrigger && profileMenu) {
-        avatarTrigger.addEventListener('click', function(event) {
-            event.stopPropagation();
-            profileMenu.classList.toggle('active');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!profileMenu.contains(event.target) && !avatarTrigger.contains(event.target)) {
-                profileMenu.classList.remove('active');
-            }
-        });
-    }
-
-    // Modal control utility functions
-    window.openGlobalModal = function(id) {
-        document.getElementById(id).style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Prevents background scrolling
+        // Robust dropdown click activation
+        const avatarTrigger = document.getElementById('avatarTrigger');
         const profileMenu = document.getElementById('profileMenu');
-        if (profileMenu) profileMenu.classList.remove('active');
-    };
 
-    window.closeGlobalModal = function(id) {
-        document.getElementById(id).style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restores background scrolling
-    };
-
-    window.openConfirmModal = function(title, message, href) {
-        document.getElementById('confirmTitle').textContent = title;
-        document.getElementById('confirmMessage').textContent = message;
-        document.getElementById('confirmActionBtn').href = href;
-        document.getElementById('confirmModal').style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Prevents background scrolling
-        const profileMenu = document.getElementById('profileMenu');
-        if (profileMenu) profileMenu.classList.remove('active');
-    };
-
-    window.closeConfirmModal = function() {
-        document.getElementById('confirmModal').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restores background scrolling
-    };
-
-    // Self-dismissing page flash alerts
-    setTimeout(() => {
-        document.querySelectorAll('.alert').forEach(a => {
-            a.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-            a.style.opacity = '0';
-            a.style.transform = 'translateY(-10px)';
-            setTimeout(() => a.remove(), 500);
-        });
-    }, 4000);
-
-    // Global GPA Calculator Logic
-    window.calculateQuickGpa = function() {
-        const current = parseFloat(document.getElementById('qgpaCurrent').value);
-        const target = parseFloat(document.getElementById('qgpaTarget').value);
-        const resultDiv = document.getElementById('qgpaResult');
-        
-        if (isNaN(current) || isNaN(target)) {
-            resultDiv.style.display = 'block';
-            resultDiv.style.color = '#ef4444';
-            resultDiv.style.background = '#fef2f2';
-            resultDiv.textContent = 'Please enter valid numbers.';
-            return;
-        }
-        
-        if (target <= current) {
-            resultDiv.style.display = 'block';
-            resultDiv.style.color = '#10b981';
-            resultDiv.style.background = '#ecfdf5';
-            resultDiv.textContent = 'You are already meeting or exceeding your target! Keep it up!';
-            return;
-        }
-        
-        const difference = (target - current).toFixed(2);
-        
-        let messageHtml = `<div style="font-size: 16px; font-weight: 800; margin-bottom: 6px;">Gap: ${difference} points</div>`;
-        messageHtml += `<p style="margin: 0; font-size: 13px;">To boost your GPA from <b>${current}</b> to <b>${target}</b>, you will need to consistently score at least a ${difference >= 0.5 ? '<b>A or A+</b>' : '<b>B+ or higher</b>'} in your remaining courses.</p>`;
-        
-        resultDiv.style.display = 'block';
-        resultDiv.style.color = '#4f46e5';
-        resultDiv.style.background = 'rgba(99, 102, 241, 0.1)';
-        resultDiv.innerHTML = messageHtml;
-    };
-
-    // Global Theme Logic
-    window.tempSelectedTheme = localStorage.getItem('theme') || 'dark';
-
-    window.selectTheme = function(mode) {
-        window.tempSelectedTheme = mode;
-        const btnLight = document.getElementById('btnThemeLight');
-        const btnDark = document.getElementById('btnThemeDark');
-        const btnSystem = document.getElementById('btnThemeSystem');
-        
-        // Reset styles for popup buttons if they exist
-        if (btnLight) { btnLight.style.borderColor = 'var(--border, #e5e7eb)'; btnLight.style.background = 'transparent'; }
-        if (btnDark) { btnDark.style.borderColor = 'var(--border, #e5e7eb)'; btnDark.style.background = 'transparent'; }
-        if (btnSystem) { btnSystem.style.borderColor = 'var(--border, #e5e7eb)'; btnSystem.style.background = 'transparent'; }
-        
-        if (mode === 'dark' && btnDark) {
-            btnDark.style.borderColor = 'var(--primary, #6366f1)'; btnDark.style.background = 'rgba(99, 102, 241, 0.05)';
-        } else if (mode === 'light' && btnLight) {
-            btnLight.style.borderColor = 'var(--primary, #6366f1)'; btnLight.style.background = 'rgba(99, 102, 241, 0.05)';
-        } else if (mode === 'system' && btnSystem) {
-            btnSystem.style.borderColor = 'var(--primary, #6366f1)'; btnSystem.style.background = 'rgba(99, 102, 241, 0.05)';
-        }
-    };
-
-    window.applyTheme = function() {
-        const mode = window.tempSelectedTheme;
-        let applyDark = false;
-        
-        if (mode === 'dark') {
-            applyDark = true;
-        } else if (mode === 'light') {
-            applyDark = false;
-        } else if (mode === 'system') {
-            // Force light mode when system option is selected
-            applyDark = false;
-        }
-        
-        if (applyDark) {
-            document.body.classList.add('dark-theme');
-        } else {
-            document.body.classList.remove('dark-theme');
-        }
-        
-        localStorage.setItem('theme', mode);
-
-        // Sync settings page select if it exists
-        const settingsSelect = document.getElementById('settingsThemeSelect');
-        if (settingsSelect && settingsSelect.value !== mode) {
-            settingsSelect.value = mode;
-        }
-        
-        closeGlobalModal('globalThemeModal');
-    };
-
-    window.setTheme = function(mode) {
-        window.selectTheme(mode);
-        window.applyTheme();
-    };
-
-    // Listen for system theme changes and apply if set to 'system'
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (localStorage.getItem('theme') === 'system') {
-            setTheme('system');
-        }
-    });
-
-    // Apply theme on page load
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
-    </script>
-{% if session.get('user_id') %}
-<!-- ===== GLOBAL GRADEBOT CHATBOT (Premium Design) ===== -->
-<link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
-
-<!-- Floating Action Button -->
-<button class="advisor-float-btn" id="globalAdvisorBtn" onclick="gbToggle()" title="Ask GradeBot">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/></svg>
-</button>
-
-<!-- Chat Panel -->
-<div class="advisor-panel-view" id="globalAdvisorPanel">
-
-    <!-- Header -->
-    <div class="chat-header">
-        <div class="chat-header-info">
-            <div class="chat-bot-avatar">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-            </div>
-            <div>
-                <div class="chat-bot-name">GradeBot</div>
-                <div class="chat-bot-status" id="gbStatusText">Always here to help 🎓</div>
-            </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-            <!-- Course selector (shown only when grades exist) -->
-            <select id="gbCourseSelect" onchange="gbSwitchCourse(this.value)"
-                style="display:none; background:rgba(255,255,255,0.18); color:white; border:1px solid rgba(255,255,255,0.3); border-radius:8px; padding:4px 8px; font-size:11px; font-weight:600; cursor:pointer; outline:none; max-width:130px;">
-                <option value="">🌐 General</option>
-            </select>
-            <button onclick="gbToggle()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);width:32px;height:32px;border-radius:50%;color:white;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;line-height:1;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">&times;</button>
-        </div>
-    </div>
-
-    <!-- Messages -->
-    <div class="chat-messages" id="globalChatMessages">
-        <div class="chat-msg chat-msg-bot">Hi! 👋 I'm <strong>GradeBot</strong>, your academic coach. Ask me anything — or pick a course above to get specific grade advice!</div>
-    </div>
-
-    <!-- Quick chips -->
-    <div class="chat-chips" id="gbChips">
-        <button class="chip" onclick="gbQuick('Give me 5 effective study tips')">📚 Study Tips</button>
-        <button class="chip" onclick="gbQuick('Create a weekly study plan for me')">📅 Study Plan</button>
-        <button class="chip" onclick="gbQuick('How does GPA calculation work?')">🎯 GPA Help</button>
-        <button class="chip" onclick="gbQuick('I need some motivation to study!')">💪 Motivate Me</button>
-    </div>
-
-    <!-- Input area -->
-    <div class="chat-input-area">
-        <input type="text" id="globalChatInput" placeholder="Ask GradeBot anything..." autocomplete="off">
-        <button class="chat-send-btn" id="globalSendBtn" onclick="gbSend()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-    </div>
-</div>
-
-<script>
-(function() {
-    var gbOpen = false;
-    var gbConversation = [];
-    var gbCurrentGradeId = null;
-    var gbGradesLoaded = false;
-
-    // ── Toggle panel ──────────────────────────────────────────
-    window.gbToggle = function() {
-        gbOpen = !gbOpen;
-        var panel = document.getElementById('globalAdvisorPanel');
-        var fab   = document.getElementById('globalAdvisorBtn');
-        if (gbOpen) {
-            panel.classList.add('open');
-            fab.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
-            if (!gbGradesLoaded) gbLoadGrades();
-            setTimeout(function(){ var i = document.getElementById('globalChatInput'); if(i) i.focus(); }, 300);
-        } else {
-            panel.classList.remove('open');
-            fab.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/></svg>';
-        }
-    };
-
-    // ── Load grades from API ───────────────────────────────────
-    async function gbLoadGrades() {
-        gbGradesLoaded = true;
-        try {
-            var res  = await fetch('/api/my-grades');
-            var data = await res.json();
-            var grades = data.grades || [];
-            var sel = document.getElementById('gbCourseSelect');
-            var chips = document.getElementById('gbChips');
-
-            if (grades.length > 0) {
-                // Populate dropdown
-                sel.innerHTML = '<option value="">🌐 General</option>';
-                grades.forEach(function(g) {
-                    var opt = document.createElement('option');
-                    opt.value = g.id;
-                    opt.textContent = g.subject + ' (' + g.letter_grade + ')';
-                    sel.appendChild(opt);
-                });
-                sel.style.display = 'block';
-
-                // Add course-specific chips
-                chips.innerHTML =
-                    '<button class="chip" onclick="gbQuick(\'How can I improve this grade?\')">📈 Improve</button>' +
-                    '<button class="chip" onclick="gbQuick(\'Give me study tips for this subject\')">📚 Study Tips</button>' +
-                    '<button class="chip" onclick="gbQuick(\'What does my GPA score mean?\')">🎯 GPA Impact</button>' +
-                    '<button class="chip" onclick="gbQuick(\'Motivate me to study harder!\')">💪 Motivate Me</button>';
-
-                // Auto-select first course
-                gbCurrentGradeId = grades[0].id;
-                sel.value = gbCurrentGradeId;
-                document.getElementById('gbStatusText').textContent = grades[0].subject + ' · ' + grades[0].score + '/100';
-
-                // Update welcome message
-                var msgs = document.getElementById('globalChatMessages');
-                var firstMsg = msgs.querySelector('.chat-msg-bot');
-                if (firstMsg) firstMsg.innerHTML = 'Hi! 👋 I\'m <strong>GradeBot</strong>. I can see your grades — pick a course from the dropdown or ask me anything! 🎓';
-            }
-        } catch(e) {
-            console.warn('GradeBot: could not load grades', e);
-        }
-    }
-
-    // ── Switch course ──────────────────────────────────────────
-    window.gbSwitchCourse = function(gradeId) {
-        gbCurrentGradeId = gradeId ? parseInt(gradeId) : null;
-        gbConversation = [];
-
-        var msgs = document.getElementById('globalChatMessages');
-        msgs.innerHTML = '';
-
-        var statusEl = document.getElementById('gbStatusText');
-        var sel = document.getElementById('gbCourseSelect');
-
-        if (gbCurrentGradeId) {
-            var opt = sel.querySelector('option[value="' + gradeId + '"]');
-            var label = opt ? opt.textContent : 'this course';
-            statusEl.textContent = label;
-            gbAddMsg('Switched to <strong>' + (opt ? opt.textContent : 'this course') + '</strong>! Ask me anything about it 📘', 'bot');
-        } else {
-            statusEl.textContent = 'Always here to help 🎓';
-            gbAddMsg('Back to <strong>General</strong> mode — ask me anything! 💬', 'bot');
-        }
-    };
-
-    // ── Add message ────────────────────────────────────────────
-    function gbAddMsg(html, role) {
-        var msgs = document.getElementById('globalChatMessages');
-        var div  = document.createElement('div');
-        div.className = 'chat-msg ' + (role === 'user' ? 'chat-msg-user' : 'chat-msg-bot');
-        if (role === 'user') {
-            div.textContent = html;
-        } else {
-            var formatted = html
-                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.+?)\*/g, '<em>$1</em>');
-            div.innerHTML = formatted;
-        }
-        msgs.appendChild(div);
-        msgs.scrollTop = msgs.scrollHeight;
-    }
-
-    function gbAddTyping() {
-        var msgs = document.getElementById('globalChatMessages');
-        var div  = document.createElement('div');
-        div.className = 'chat-msg chat-msg-bot';
-        div.id = 'gbTypingIndicator';
-        div.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
-        msgs.appendChild(div);
-        msgs.scrollTop = msgs.scrollHeight;
-    }
-
-    function gbRemoveTyping() {
-        var t = document.getElementById('gbTypingIndicator');
-        if (t) t.remove();
-    }
-
-    // ── Send message ───────────────────────────────────────────
-    window.gbSend = async function() {
-        var input = document.getElementById('globalChatInput');
-        var btn   = document.getElementById('globalSendBtn');
-        var msg   = input.value.trim();
-        if (!msg) return;
-
-        input.value = '';
-        btn.disabled = true;
-
-        gbAddMsg(msg, 'user');
-        gbConversation.push({role: 'user', content: msg});
-        gbAddTyping();
-
-        try {
-            var res = await fetch('/chat', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    message: msg,
-                    grade_id: gbCurrentGradeId || null,
-                    conversation: gbConversation
-                })
+        if (avatarTrigger && profileMenu) {
+            avatarTrigger.addEventListener('click', function (event) {
+                event.stopPropagation();
+                profileMenu.classList.toggle('active');
             });
-            var data = await res.json();
-            gbRemoveTyping();
-            var reply = data.reply || "Sorry, I couldn't respond right now.";
-            gbAddMsg(reply, 'bot');
-            gbConversation.push({role: 'assistant', content: reply});
-        } catch(e) {
-            gbRemoveTyping();
-            gbAddMsg('Oops, something went wrong. Please try again!', 'bot');
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!profileMenu.contains(event.target) && !avatarTrigger.contains(event.target)) {
+                    profileMenu.classList.remove('active');
+                }
+            });
         }
 
-        btn.disabled = false;
-        input.focus();
-    };
+        // Modal control utility functions
+        window.openGlobalModal = function (id) {
+            document.getElementById(id).style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevents background scrolling
+            const profileMenu = document.getElementById('profileMenu');
+            if (profileMenu) profileMenu.classList.remove('active');
+        };
 
-    window.gbQuick = function(msg) {
-        if (!gbOpen) gbToggle();
-        setTimeout(function() {
-            var input = document.getElementById('globalChatInput');
-            if (input) { input.value = msg; gbSend(); }
-        }, 350);
-    };
+        window.closeGlobalModal = function (id) {
+            document.getElementById(id).style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restores background scrolling
+        };
 
-    // Enter key to send
-    document.addEventListener('DOMContentLoaded', function() {
-        var inp = document.getElementById('globalChatInput');
-        if (inp) inp.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) gbSend();
+        window.openConfirmModal = function (title, message, href) {
+            document.getElementById('confirmTitle').textContent = title;
+            document.getElementById('confirmMessage').textContent = message;
+            document.getElementById('confirmActionBtn').href = href;
+            document.getElementById('confirmModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevents background scrolling
+            const profileMenu = document.getElementById('profileMenu');
+            if (profileMenu) profileMenu.classList.remove('active');
+        };
+
+        window.closeConfirmModal = function () {
+            document.getElementById('confirmModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restores background scrolling
+        };
+
+        // Self-dismissing page flash alerts
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(a => {
+                a.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                a.style.opacity = '0';
+                a.style.transform = 'translateY(-10px)';
+                setTimeout(() => a.remove(), 500);
+            });
+        }, 4000);
+
+        // Global GPA Calculator Logic
+        window.calculateQuickGpa = function () {
+            const current = parseFloat(document.getElementById('qgpaCurrent').value);
+            const target = parseFloat(document.getElementById('qgpaTarget').value);
+            const completed = parseInt(document.getElementById('qgpaCompletedCredits').value);
+            const remaining = parseInt(document.getElementById('qgpaRemainingCredits').value);
+            const resultDiv = document.getElementById('qgpaResult');
+
+            if (isNaN(current) || isNaN(target) || isNaN(completed) || isNaN(remaining) || remaining <= 0) {
+                resultDiv.style.display = 'block';
+                resultDiv.style.color = '#ef4444';
+                resultDiv.style.background = '#fef2f2';
+                resultDiv.textContent = 'Please enter valid numbers and credits.';
+                return;
+            }
+
+            if (target <= current) {
+                resultDiv.style.display = 'block';
+                resultDiv.style.color = '#10b981';
+                resultDiv.style.background = '#ecfdf5';
+                resultDiv.textContent = 'You are already meeting or exceeding your target! Keep it up!';
+                return;
+            }
+
+            // Weighted GPA calculation
+            const totalCredits = completed + remaining;
+            const requiredGpa = ((target * totalCredits) - (current * completed)) / remaining;
+            const required = requiredGpa.toFixed(2);
+
+            let messageHtml = `<div style="font-size: 16px; font-weight: 800; margin-bottom: 6px;">Needed GPA in remaining courses: ${required}</div>`;
+            messageHtml += `<p style="margin: 0; font-size: 13px;">To reach a target GPA of <b>${target}</b> from your current <b>${current}</b>, you need to achieve an average of <b>${required}</b> in the remaining <b>${remaining}</b> credits.</p>`;
+
+            resultDiv.style.display = 'block';
+            resultDiv.style.color = '#4f46e5';
+            resultDiv.style.background = 'rgba(99, 102, 241, 0.1)';
+            resultDiv.innerHTML = messageHtml;
+        };
+
+        // Global Theme Logic
+        window.tempSelectedTheme = localStorage.getItem('theme') || 'dark';
+
+        window.selectTheme = function (mode) {
+            window.tempSelectedTheme = mode;
+            const btnLight = document.getElementById('btnThemeLight');
+            const btnDark = document.getElementById('btnThemeDark');
+            const btnSystem = document.getElementById('btnThemeSystem');
+
+            // Reset styles for popup buttons if they exist
+            if (btnLight) { btnLight.style.borderColor = 'var(--border, #e5e7eb)'; btnLight.style.background = 'transparent'; }
+            if (btnDark) { btnDark.style.borderColor = 'var(--border, #e5e7eb)'; btnDark.style.background = 'transparent'; }
+            if (btnSystem) { btnSystem.style.borderColor = 'var(--border, #e5e7eb)'; btnSystem.style.background = 'transparent'; }
+
+            if (mode === 'dark' && btnDark) {
+                btnDark.style.borderColor = 'var(--primary, #6366f1)'; btnDark.style.background = 'rgba(99, 102, 241, 0.05)';
+            } else if (mode === 'light' && btnLight) {
+                btnLight.style.borderColor = 'var(--primary, #6366f1)'; btnLight.style.background = 'rgba(99, 102, 241, 0.05)';
+            } else if (mode === 'system' && btnSystem) {
+                btnSystem.style.borderColor = 'var(--primary, #6366f1)'; btnSystem.style.background = 'rgba(99, 102, 241, 0.05)';
+            }
+        };
+
+        window.applyTheme = function () {
+            const mode = window.tempSelectedTheme;
+            let applyDark = false;
+
+            if (mode === 'dark') {
+                applyDark = true;
+            } else if (mode === 'light') {
+                applyDark = false;
+            } else if (mode === 'system') {
+                // Force light mode when system option is selected
+                applyDark = false;
+            }
+
+            if (applyDark) {
+                document.body.classList.add('dark-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+            }
+
+            localStorage.setItem('theme', mode);
+
+            // Sync settings page select if it exists
+            const settingsSelect = document.getElementById('settingsThemeSelect');
+            if (settingsSelect && settingsSelect.value !== mode) {
+                settingsSelect.value = mode;
+            }
+
+            closeGlobalModal('globalThemeModal');
+        };
+
+        window.setTheme = function (mode) {
+            window.selectTheme(mode);
+            window.applyTheme();
+        };
+
+        // Listen for system theme changes and apply if set to 'system'
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (localStorage.getItem('theme') === 'system') {
+                setTheme('system');
+            }
         });
-    });
-})();
-</script>
-{% endif %}
+
+        // Apply theme on page load
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+    </script>
+    {% if session.get('user_id') %}
+    <!-- ===== GLOBAL GRADEBOT CHATBOT (Premium Design) ===== -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
+
+    <!-- Floating Action Button -->
+    <button class="advisor-float-btn" id="globalAdvisorBtn" onclick="gbToggle()" title="Ask GradeBot">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z" />
+        </svg>
+    </button>
+
+    <!-- Chat Panel -->
+    <div class="advisor-panel-view" id="globalAdvisorPanel">
+
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-bot-avatar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 8V4H8" />
+                        <rect x="4" y="8" width="16" height="12" rx="2" />
+                        <path d="M2 14h2" />
+                        <path d="M20 14h2" />
+                        <path d="M15 13v2" />
+                        <path d="M9 13v2" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="chat-bot-name">GradeBot</div>
+                    <div class="chat-bot-status" id="gbStatusText">Always here to help 🎓</div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <!-- Course selector (shown only when grades exist) -->
+                <select id="gbCourseSelect" onchange="gbSwitchCourse(this.value)"
+                    style="display:none; background:rgba(255,255,255,0.18); color:white; border:1px solid rgba(255,255,255,0.3); border-radius:8px; padding:4px 8px; font-size:11px; font-weight:600; cursor:pointer; outline:none; max-width:130px;">
+                    <option value="">🌐 General</option>
+                </select>
+                <button onclick="gbToggle()"
+                    style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);width:32px;height:32px;border-radius:50%;color:white;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;line-height:1;transition:background 0.2s;"
+                    onmouseover="this.style.background='rgba(255,255,255,0.25)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.15)'">&times;</button>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="chat-messages" id="globalChatMessages">
+            <div class="chat-msg chat-msg-bot">Hi! 👋 I'm <strong>GradeBot</strong>, your academic coach. Ask me
+                anything — or pick a course above to get specific grade advice!</div>
+        </div>
+
+        <!-- Quick chips -->
+        <div class="chat-chips" id="gbChips">
+            <button class="chip" onclick="gbQuick('Give me 5 effective study tips')">📚 Study Tips</button>
+            <button class="chip" onclick="gbQuick('Create a weekly study plan for me')">📅 Study Plan</button>
+            <button class="chip" onclick="gbQuick('How does GPA calculation work?')">🎯 GPA Help</button>
+            <button class="chip" onclick="gbQuick('I need some motivation to study!')">💪 Motivate Me</button>
+        </div>
+
+        <!-- Input area -->
+        <div class="chat-input-area">
+            <input type="text" id="globalChatInput" placeholder="Ask GradeBot anything..." autocomplete="off">
+            <button class="chat-send-btn" id="globalSendBtn" onclick="gbSend()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var gbOpen = false;
+            var gbConversation = [];
+            var gbCurrentGradeId = null;
+            var gbGradesLoaded = false;
+
+            // ── Toggle panel ──────────────────────────────────────────
+            window.gbToggle = function () {
+                gbOpen = !gbOpen;
+                var panel = document.getElementById('globalAdvisorPanel');
+                var fab = document.getElementById('globalAdvisorBtn');
+                if (gbOpen) {
+                    panel.classList.add('open');
+                    fab.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+                    if (!gbGradesLoaded) gbLoadGrades();
+                    setTimeout(function () { var i = document.getElementById('globalChatInput'); if (i) i.focus(); }, 300);
+                } else {
+                    panel.classList.remove('open');
+                    fab.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/></svg>';
+                }
+            };
+
+            // ── Load grades from API ───────────────────────────────────
+            async function gbLoadGrades() {
+                gbGradesLoaded = true;
+                try {
+                    var res = await fetch('/api/my-grades');
+                    var data = await res.json();
+                    var grades = data.grades || [];
+                    var sel = document.getElementById('gbCourseSelect');
+                    var chips = document.getElementById('gbChips');
+
+                    if (grades.length > 0) {
+                        // Populate dropdown
+                        sel.innerHTML = '<option value="">🌐 General</option>';
+                        grades.forEach(function (g) {
+                            var opt = document.createElement('option');
+                            opt.value = g.id;
+                            opt.textContent = g.subject + ' (' + g.letter_grade + ')';
+                            sel.appendChild(opt);
+                        });
+                        sel.style.display = 'block';
+
+                        // Add course-specific chips
+                        chips.innerHTML =
+                            '<button class="chip" onclick="gbQuick(\'How can I improve this grade?\')">📈 Improve</button>' +
+                            '<button class="chip" onclick="gbQuick(\'Give me study tips for this subject\')">📚 Study Tips</button>' +
+                            '<button class="chip" onclick="gbQuick(\'What does my GPA score mean?\')">🎯 GPA Impact</button>' +
+                            '<button class="chip" onclick="gbQuick(\'Motivate me to study harder!\')">💪 Motivate Me</button>';
+
+                        // Auto-select first course
+                        gbCurrentGradeId = grades[0].id;
+                        sel.value = gbCurrentGradeId;
+                        document.getElementById('gbStatusText').textContent = grades[0].subject + ' · ' + grades[0].score + '/100';
+
+                        // Update welcome message
+                        var msgs = document.getElementById('globalChatMessages');
+                        var firstMsg = msgs.querySelector('.chat-msg-bot');
+                        if (firstMsg) firstMsg.innerHTML = 'Hi! 👋 I\'m <strong>GradeBot</strong>. I can see your grades — pick a course from the dropdown or ask me anything! 🎓';
+                    }
+                } catch (e) {
+                    console.warn('GradeBot: could not load grades', e);
+                }
+            }
+
+            // ── Switch course ──────────────────────────────────────────
+            window.gbSwitchCourse = function (gradeId) {
+                gbCurrentGradeId = gradeId ? parseInt(gradeId) : null;
+                gbConversation = [];
+
+                var msgs = document.getElementById('globalChatMessages');
+                msgs.innerHTML = '';
+
+                var statusEl = document.getElementById('gbStatusText');
+                var sel = document.getElementById('gbCourseSelect');
+
+                if (gbCurrentGradeId) {
+                    var opt = sel.querySelector('option[value="' + gradeId + '"]');
+                    var label = opt ? opt.textContent : 'this course';
+                    statusEl.textContent = label;
+                    gbAddMsg('Switched to <strong>' + (opt ? opt.textContent : 'this course') + '</strong>! Ask me anything about it 📘', 'bot');
+                } else {
+                    statusEl.textContent = 'Always here to help 🎓';
+                    gbAddMsg('Back to <strong>General</strong> mode — ask me anything! 💬', 'bot');
+                }
+            };
+
+            // ── Add message ────────────────────────────────────────────
+            function gbAddMsg(html, role) {
+                var msgs = document.getElementById('globalChatMessages');
+                var div = document.createElement('div');
+                div.className = 'chat-msg ' + (role === 'user' ? 'chat-msg-user' : 'chat-msg-bot');
+                if (role === 'user') {
+                    div.textContent = html;
+                } else {
+                    var formatted = html
+                        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.+?)\*/g, '<em>$1</em>');
+                    div.innerHTML = formatted;
+                }
+                msgs.appendChild(div);
+                msgs.scrollTop = msgs.scrollHeight;
+            }
+
+            function gbAddTyping() {
+                var msgs = document.getElementById('globalChatMessages');
+                var div = document.createElement('div');
+                div.className = 'chat-msg chat-msg-bot';
+                div.id = 'gbTypingIndicator';
+                div.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+                msgs.appendChild(div);
+                msgs.scrollTop = msgs.scrollHeight;
+            }
+
+            function gbRemoveTyping() {
+                var t = document.getElementById('gbTypingIndicator');
+                if (t) t.remove();
+            }
+
+            // ── Send message ───────────────────────────────────────────
+            window.gbSend = async function () {
+                var input = document.getElementById('globalChatInput');
+                var btn = document.getElementById('globalSendBtn');
+                var msg = input.value.trim();
+                if (!msg) return;
+
+                input.value = '';
+                btn.disabled = true;
+
+                gbAddMsg(msg, 'user');
+                gbConversation.push({ role: 'user', content: msg });
+                gbAddTyping();
+
+                try {
+                    var res = await fetch('/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: msg,
+                            grade_id: gbCurrentGradeId || null,
+                            conversation: gbConversation
+                        })
+                    });
+                    var data = await res.json();
+                    gbRemoveTyping();
+                    var reply = data.reply || "Sorry, I couldn't respond right now.";
+                    gbAddMsg(reply, 'bot');
+                    gbConversation.push({ role: 'assistant', content: reply });
+                } catch (e) {
+                    gbRemoveTyping();
+                    gbAddMsg('Oops, something went wrong. Please try again!', 'bot');
+                }
+
+                btn.disabled = false;
+                input.focus();
+            };
+
+            window.gbQuick = function (msg) {
+                if (!gbOpen) gbToggle();
+                setTimeout(function () {
+                    var input = document.getElementById('globalChatInput');
+                    if (input) { input.value = msg; gbSend(); }
+                }, 350);
+            };
+
+            // Enter key to send
+            document.addEventListener('DOMContentLoaded', function () {
+                var inp = document.getElementById('globalChatInput');
+                if (inp) inp.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' && !e.shiftKey) gbSend();
+                });
+            });
+        })();
+    </script>
+    {% endif %}
 </body>
+
 </html>
