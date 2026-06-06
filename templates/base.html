@@ -591,8 +591,8 @@
                 </h3>
                 <button onclick="closeGlobalModal('globalHelpModal')" style="background: none; border: none; font-size: 20px; color: var(--text-secondary, #6b7280); cursor: pointer;">&times;</button>
             </div>
-            <div style="line-height: 1.6; color: var(--text-secondary, #4b5563); font-size: 14px;">
-                <p style="margin-top: 0;">Welcome to <strong>GradeEvaluator AI Pro</strong>! Here are advanced strategies to maximize your academic performance:</p>
+            <div style="line-height: 1.6; color: var(--text-secondary, #4b5563); font-size: 14px; max-height: 60vh; overflow-y: auto; padding-right: 4px;">
+                <p style="margin-top: 0;">Welcome to <strong>GradeEvaluator AI</strong>! Here are advanced strategies to maximize your academic performance:</p>
                 <div style="margin-top: 16px; padding: 16px; background: rgba(99, 102, 241, 0.05); border-left: 4px solid var(--primary, #6366f1); border-radius: 4px;">
                     <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">🤖 AI Predictive Insights</h4>
                     <p style="margin: 0; font-size: 13px;">Use the "Generate New Analysis" button on your dashboard to let GradeBot analyze your historical grading curve and predict future performance.</p>
@@ -604,6 +604,22 @@
                 <div style="margin-top: 12px; padding: 16px; background: rgba(245, 158, 11, 0.05); border-left: 4px solid #f59e0b; border-radius: 4px;">
                     <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">🌙 Study Environments</h4>
                     <p style="margin: 0; font-size: 13px;">Enable Dark Mode in Theme Preferences to reduce eye strain during late-night study sessions and report analysis.</p>
+                </div>
+                <div style="margin-top: 12px; padding: 16px; background: rgba(239, 68, 68, 0.05); border-left: 4px solid #ef4444; border-radius: 4px;">
+                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">💬 GradeBot Chat Assistant</h4>
+                    <p style="margin: 0; font-size: 13px;">Click the floating chat button on any page to open GradeBot. Select a specific course from the dropdown to get personalised grade feedback, improvement tips, and study strategies tailored to that subject.</p>
+                </div>
+                <div style="margin-top: 12px; padding: 16px; background: rgba(139, 92, 246, 0.05); border-left: 4px solid #8b5cf6; border-radius: 4px;">
+                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">📋 Grade History &amp; Search</h4>
+                    <p style="margin: 0; font-size: 13px;">Visit the Course History page to search, filter, and review all your past grades. You can delete individual records or clear an entire semester — keeping your transcript clean and accurate.</p>
+                </div>
+                <div style="margin-top: 12px; padding: 16px; background: rgba(20, 184, 166, 0.05); border-left: 4px solid #14b8a6; border-radius: 4px;">
+                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">📄 Export Your Transcript</h4>
+                    <p style="margin: 0; font-size: 13px;">Download your full academic record as a professionally formatted <strong>PDF</strong> or a <strong>CSV spreadsheet</strong> from the Grade History page. Use the PDF report for official submissions or advisor meetings.</p>
+                </div>
+                <div style="margin-top: 12px; padding: 16px; background: rgba(236, 72, 153, 0.05); border-left: 4px solid #ec4899; border-radius: 4px;">
+                    <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text-primary, #111827);">🔔 Notifications &amp; Milestones</h4>
+                    <p style="margin: 0; font-size: 13px;">Check the Notifications Hub regularly for achievement milestones, GPA alerts, and personalised academic tips generated based on your latest performance trends.</p>
                 </div>
             </div>
             <button class="btn" style="width: 100%; justify-content: center; background: var(--bg-secondary, #f3f4f6); color: var(--text-primary, #111827); padding: 12px; border-radius: 8px; font-weight: 600; margin-top: 24px; border: 1px solid var(--border, #e5e7eb); cursor: pointer;" onclick="closeGlobalModal('globalHelpModal')">Got it, thanks!</button>
@@ -1027,7 +1043,6 @@
 
     window.gbQuick = function(msg) {
         if (!gbOpen) gbToggle();
-        setTimeou if (!gbOpen) gbToggle();
         setTimeout(function() {
             var input = document.getElementById('globalChatInput');
             if (input) { input.value = msg; gbSend(); }
