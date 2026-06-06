@@ -114,9 +114,32 @@
     // Sync the select value with the current active theme on page load
     document.addEventListener("DOMContentLoaded", function() {
         const themeSelect = document.getElementById('settingsThemeSelect');
-        if (themeSelect) {
-            themeSelect.value = localStorage.getItem('theme') || 'dark';
+        let stored = localStorage.getItem('theme');
+        if (!stored) stored = 'light'; // default to light
+        // Apply stored theme; if 'system', force light
+        if (stored === 'system') {
+            document.body.setAttribute('data-theme', 'light');
+            themeSelect.value = 'system';
+        } else {
+            document.body.setAttribute('data-theme', stored);
+            themeSelect.value = stored;
         }
     });
+
+    // Theme toggle handler (assumes setTheme function defined elsewhere)
+    const themeSelect = document.getElementById('settingsThemeSelect');
+    if (themeSelect) {
+        themeSelect.addEventListener('change', function() {
+            const val = this.value;
+            if (val === 'system') {
+                // Force light mode for system selection
+                document.body.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'system');
+            } else {
+                document.body.setAttribute('data-theme', val);
+                localStorage.setItem('theme', val);
+            }
+        });
+    }
 </script>
 {% endblock %}

@@ -10,6 +10,7 @@ from database import (
     delete_grade as delete_grade_db,
     clear_grades as clear_grades_db,
     update_user_password,
+    update_user_profile,
     get_user_profile,
     get_grade_count,
     init_db,
@@ -72,7 +73,7 @@ def index():
         return redirect(url_for("register"))
     if "user_id" in session:
         return redirect(url_for("dashboard"))
-    return render_template("index.html")
+    return render_template("index.html", current_cgpa=calculate_cumulative_gpa(get_grades_by_student(session.get('user_id'))) if "user_id" in session else None)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -80,6 +81,7 @@ def register():
         name = request.form.get("name", "").strip()
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "")
+        university = request.form.get("university", "").strip()
         
         if not name or not email or not password:
             flash("All fields are required.", "danger")
@@ -90,10 +92,10 @@ def register():
             flash("Email already registered.", "danger")
             return redirect(url_for("register"))
         hashed_pw = generate_password_hash(password)
-        create_student(name, email, hashed_pw, date_str)
+        create_student(name, email, hashed_pw, date_str, university)
         flash("Registration successful. Please log in.", "success")
         return redirect(url_for("login"))
-    return render_template("register.html")
+    return render_template("register.html", current_cgpa=calculate_cumulative_gpa(get_grades_by_student(session.get('user_id'))) if "user_id" in session else None)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -111,7 +113,7 @@ def login():
             session["user_name"] = user["name"]
             return redirect(url_for("dashboard"))
         flash("Invalid email or password.", "danger")
-    return render_template("login.html")
+    return render_template("login.html", current_cgpa=calculate_cumulative_gpa(get_grades_by_student(session.get('user_id'))) if "user_id" in session else None)
 
 @app.route("/logout")
 def logout():
@@ -123,6 +125,9 @@ def dashboard():
     if "user_id" not in session:
         return redirect(url_for("login"))
     user_id = session["user_id"]
+    # Fetch user profile to get university
+    user_profile = get_user_profile(user_id)
+    university = user_profile.get("university", "")
     if request.method == "POST":
         semester_name = request.form.get("semester_name", "Semester 1").strip()
         subjects = request.form.getlist("subject[]")
@@ -172,7 +177,7 @@ def dashboard():
             'sgpa': calculate_cumulative_gpa(sem_grades)
         })
         
-    return render_template("dashboard.html", grades=grades, semesters_data=semesters_data, name=session["user_name"], cumulative_gpa=calculate_cumulative_gpa(grades))
+    return render_template("dashboard.html", grades=grades, semesters_data=semesters_data, name=session["user_name"], university=university, cumulative_gpa=calculate_cumulative_gpa(grades), current_cgpa=calculate_cumulative_gpa(grades))
 
 @app.route("/generate_report", methods=["POST"])
 def generate_report():
@@ -237,7 +242,7 @@ def history():
             for g in grades
             if search.lower() in g["subject"].lower() or search.lower() in g["date"].lower()
         ]
-    return render_template("history.html", grades=grades, search=search)
+    return render_template("history.html", grades=grades, search=search, current_cgpa=calculate_cumulative_gpa(grades))
 
 @app.route("/history/delete/<int:grade_id>", methods=["POST"])
 def delete_grade(grade_id):
@@ -261,25 +266,21 @@ def profile():
         return redirect(url_for("login"))
     user_id = session["user_id"]
     if request.method == "POST":
-        current_password = request.form.get("current_password")
-        new_password = request.form.get("new_password")
-        if current_password and new_password:
-            user = get_user_profile(user_id)
-            if check_password_hash(user["password_hash"], current_password):
-                hashed_pw = generate_password_hash(new_password)
-                update_user_password(user_id, hashed_pw)
-                flash("Password updated successfully.", "success")
-            else:
-                flash("Current password is incorrect.", "danger")
+        # Handle name/university updates
+        new_name = request.form.get("name")
+        new_university = request.form.get("university")
+        if new_name or new_university:
+            update_user_profile(user_id, name=new_name if new_name else None, university=new_university if new_university else None)
+            flash("Profile updated successfully.", "success")
     user = get_user_profile(user_id)
     grade_count = get_grade_count(user_id)
-    return render_template("profile.html", user=user, grade_count=grade_count)
+    return render_template("profile.html", user=user, grade_count=grade_count, cumulative_gpa=calculate_cumulative_gpa(get_grades_by_student(user_id)), current_cgpa=calculate_cumulative_gpa(get_grades_by_student(user_id)))
 @app.route('/settings')
 def settings():
     if "user_id" not in session:
         return redirect(url_for('login'))
     # Placeholder settings page – you can extend with actual settings fields later
-    return render_template('settings.html', name=session.get('user_name', 'User'))
+    return render_template('settings.html', name=session.get('user_name', 'User'), current_cgpa=calculate_cumulative_gpa(get_grades_by_student(session.get('user_id'))) if "user_id" in session else None)
 
 @app.route('/notifications')
 def notifications():
@@ -287,7 +288,7 @@ def notifications():
         return redirect(url_for('login'))
     # Placeholder for future notifications list
     notifications = []
-    return render_template('notifications.html', notifications=notifications)
+    return render_template('notifications.html', notifications=notifications, current_cgpa=calculate_cumulative_gpa(get_grades_by_student(session.get('user_id'))) if "user_id" in session else None)
 
 @app.route("/export/csv")
 def export_csv():

@@ -1,108 +1,246 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" alt="Status" />
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
-  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask" />
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
 
-  <h1>🎓 GradeEvaluator AI</h1>
-  <p><strong>A Premium Academic Tracking & AI Analytics Platform</strong></p>
+<img src="static/logo.svg" width="80" alt="GradeEvaluator Logo" />
+
+# 🎓 GradeEvaluator AI
+
+**A Premium Academic Tracking & AI Coaching Platform**
+
+<img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Version-v2.0-blue?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+<img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" />
+<img src="https://img.shields.io/badge/Gemini_AI-4285F4?style=for-the-badge&logo=google&logoColor=white" />
+<img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white" />
+<img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" />
+
+<br/>
+
+🌐 **[Live Demo](https://grade-evaluator.onrender.com)** · 
+🐛 **[Report Bug](https://github.com/gemachistesfaye/GradeEvaluator/issues)** · 
+✨ **[Request Feature](https://github.com/gemachistesfaye/GradeEvaluator/issues)**
+
 </div>
 
 ---
 
 ## 🌟 Overview
 
-**GradeEvaluator** is a modern, full-stack academic performance tracker designed for students who want deep insights into their academic trajectory. Moving beyond simple calculators, GradeEvaluator features a beautiful glassmorphic UI, robust data visualizations, and an integrated **AI Academic Advisor (GradeBot)** that provides personalized feedback, study plans, and grade improvement strategies.
-💡 **Tip:** Use [shields.io](https://shields.io) to generate custom status badges and banners for your project.
+**GradeEvaluator AI** is a modern, full-stack academic performance tracker
+built for university students who want deep, AI-powered insights into
+their academic trajectory.
+
+Enter your subject scores, get instant letter grades, track your
+weighted cumulative GPA across semesters, and chat with **GradeBot** —
+your personal AI academic coach powered by Google Gemini.
+
+---
+
 ## ✨ Key Features
 
-- **📊 Comprehensive Dashboard:** Instantly view your Cumulative GPA, Average Scores, and Total Earned Credits.
-- **🤖 GradeBot AI:** An integrated, floating AI chatbot and report generator that analyzes your semester performance and offers actionable academic advice.
-- **🌓 Dynamic Dark Mode:** A stunning, system-aware dark/light theme engine that transforms the entire UI instantly.
-- **📈 Interactive Analytics:** Beautiful Chart.js integration showing score progression and grade distribution.
-- **🖨️ Professional Exporting:** One-click CSV exports and fully formatted, print-ready PDF official transcripts.
-- **📱 Responsive Design:** Flawless experience across desktop, tablet, and mobile devices.
+| Feature | Description |
+|---|---|
+| 🤖 **GradeBot AI Chatbot** | Floating AI coach — ask study tips, get weekly plans, understand your GPA impact |
+| 📊 **Semester Dashboard** | Bar, pie, and line charts showing performance across all subjects |
+| ⭐ **Real Weighted GPA** | Calculates true cumulative GPA using credit hours per course |
+| 🌓 **Dark / Light / System Theme** | Three theme modes — saved automatically per device |
+| 📄 **PDF & CSV Export** | Download full grade transcripts as PDF or spreadsheet |
+| 🔐 **Secure Auth** | Register, login, change password with bcrypt hashing |
+| 📋 **Grade History** | Full searchable history with per-grade delete |
+| 🏫 **Semester Grouping** | Organize grades by semester, see SGPA per semester |
+
+---
+
+## 📊 Grading Scale
+
+| Score Range | Letter Grade | GPA Points |
+|------------|--------------|------------|
+| 90 – 100 | A+ | 4.0 |
+| 85 – 89.9 | A | 4.0 |
+| 80 – 84.9 | A- | 3.75 |
+| 75 – 79.9 | B+ | 3.5 |
+| 70 – 74.9 | B | 3.0 |
+| 65 – 69.9 | B- | 2.75 |
+| 60 – 64.9 | C+ | 2.5 |
+| 55 – 59.9 | C | 2.0 |
+| 50 – 54.9 | C- | 1.75 |
+| 40 – 49.9 | D | 1.5 |
+| Below 40 | F (NG) | 0.0 |
+
+> ⚠️ **F (NG) = No Grade.** Any F in a course results in
+> NG status for that semester's GPA.
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Python, Flask, SQLite (SQLAlchemy)
-- **Frontend:** Vanilla JavaScript, HTML5, Vanilla CSS (Custom Design System)
-- **Data Visualization:** Chart.js
-- **AI Integration:** Google Gemini Pro API
+| Layer | Technology |
+|---|---|
+| **Backend** | Python 3.11, Flask |
+| **Database** | SQLite (via built-in `sqlite3`) |
+| **AI** | Google Gemini API (`google-genai`) |
+| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
+| **Charts** | Chart.js |
+| **Fonts** | Inter (Google Fonts) |
+| **PDF Export** | ReportLab |
+| **Auth** | Werkzeug password hashing |
+| **Deploy** | Render (via Procfile + gunicorn) |
+
+---
+
+## 📁 Project Structure
+
+```
+GradeEvaluator/
+├── app.py                 # Flask routes & core logic
+├── database.py            # SQLite database setup & queries
+├── ai_feedback.py         # Google Gemini AI integration
+├── export.py              # CSV & PDF export logic
+├── run.py                 # App entry point
+├── requirements.txt       # Python dependencies
+├── Procfile               # Render deployment config
+├── .env                   # API keys (git-ignored)
+├── .gitignore
+├── LICENSE
+├── .github/
+│   ├── CONTRIBUTING.md
+│   ├── CODE_OF_CONDUCT.md
+│   ├── SECURITY.md
+│   └── PULL_REQUEST_TEMPLATE.md
+├── static/
+│   ├── style.css          # Global design system
+│   ├── chatbot.css        # Floating chatbot styles
+│   ├── charts.js          # Chart.js rendering
+│   ├── dashboard.js       # Dashboard UI logic
+│   └── logo.svg           # App logo
+└── templates/
+    ├── base.html          # Shared navbar & layout
+    ├── index.html         # Landing page
+    ├── login.html         # Login page
+    ├── register.html      # Register page
+    ├── dashboard.html     # Main app dashboard
+    ├── history.html       # Grade history table
+    ├── profile.html       # User profile & settings
+    ├── settings.html      # App settings
+    └── notifications.html # Notifications center
+```
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 - Python 3.8+
 - `pip` package manager
+- Google Gemini API key
+  (free at [aistudio.google.com](https://aistudio.google.com/app/apikey))
 
 ### Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/gemachistesfaye/GradeEvaluator.git
-   cd GradeEvaluator
-   ```
+**1. Clone the repository:**
+```bash
+git clone https://github.com/gemachistesfaye/GradeEvaluator.git
+cd GradeEvaluator
+```
 
-2. **Create a virtual environment & install dependencies:**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
+**2. Create and activate virtual environment:**
+```bash
+python -m venv venv
 
-3. **Set up Environment Variables:**
-   Create a `.env` file in the root directory and add your API keys:
-   ```env
-   SECRET_KEY=your_secure_secret_key
-   GEMINI_API_KEY=your_gemini_api_key_here
-   ```
+# Windows:
+venv\Scripts\activate
 
-4. **Initialize the Database:**
-   ```bash
-   python init_db.py
-   ```
+# macOS/Linux:
+source venv/bin/activate
+```
 
-5. **Run the Application:**
-   ```bash
-   python run.py
-   ```
-   Navigate to `http://localhost:5000` in your browser.
+**3. Install dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+**4. Create your `.env` file:**
+```env
+FLASK_SECRET_KEY=your_secure_secret_key
+GEMINI_API_KEY=your_gemini_api_key_here
+FLASK_ENV=development
+```
+
+**5. Run the app:**
+```bash
+python run.py
+```
+
+Open **http://localhost:5000** in your browser. 🎉
+
+---
 
 ## 📸 Screenshots
 
-*(Replace these links with the image links you get from uploading screenshots to a GitHub issue)*
-
-| Dashboard Analytics | AI Academic Report |
+| Dashboard | GradeBot AI Chat |
 | :---: | :---: |
-| <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_1" width="400"/> | <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_2" width="400"/> |
+| <img src="PASTE_SCREENSHOT_1" width="400"/> | <img src="PASTE_SCREENSHOT_2" width="400"/> |
 
-| Dark Mode UI | Print-Ready Transcript |
+| Dark Mode | Grade History |
 | :---: | :---: |
-| <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_3" width="400"/> | <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_4" width="400"/> |
+| <img src="PASTE_SCREENSHOT_3" width="400"/> | <img src="PASTE_SCREENSHOT_4" width="400"/> |
 
-| User Profile | Chatbot Interaction |
+| Register Page | PDF Export |
 | :---: | :---: |
-| <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_5" width="400"/> | <img src="PASTE_YOUR_GITHUB_ISSUE_IMAGE_LINK_HERE_6" width="400"/> |
+| <img src="PASTE_SCREENSHOT_5" width="400"/> | <img src="PASTE_SCREENSHOT_6" width="400"/> |
 
-## 🤝 Contributing
+> 📸 To add screenshots: open any GitHub issue,
+> drag your screenshots into the comment box,
+> copy the generated URLs and paste above.
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/gemachistesfaye/GradeEvaluator/issues). Please read our [Contributing Guidelines](.github/CONTRIBUTING.md) before submitting a PR.
+---
 
-## 📄 License
+## 🌐 Deployment
 
-This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
-## 🔒 Security
+This app is deployed on **Render** using `gunicorn`:
 
-- **Secure Authentication:** Uses Flask session secret keys and HTTPS recommendations.
-- **Input Validation:** All form inputs are sanitized and validated on both client and server sides.
-- **CSRF Protection:** Implemented via Flask‑WTF CSRF token.
-- **Dependency Audits:** Regularly run `pip-audit` to detect vulnerable packages.
+```
+web: gunicorn app:app
+```
 
+Live at: **https://grade-evaluator.onrender.com**
+
+---
+
+## 📅 Changelog
+
+### v2.0.0 — June 2026
+- 🤖 GradeBot AI floating chatbot (Google Gemini)
+- ⭐ Real weighted cumulative GPA calculator
+- 🏫 Semester grouping with SGPA per semester
+- 🌓 Dark / Light / System theme modes
+- 📈 Interactive Chart.js analytics (bar, pie, line)
+- 💾 SQLite persistent database
+- 🔐 Full login / register / password change system
+- 📄 PDF & CSV export
+- 🔔 Notifications center
+- ⚙️ Settings page
+
+### v1.0.0 — August 2025
+- 🎉 Initial release
+- Basic score → letter grade conversion
+- Simple Flask web UI
+- Deployed on Render
+
+---
 
 ## 👨‍💻 About the Developer
 
-**Gemachis Tesfaye**  
-Full Stack Developer & AI Enthusiast  
-📧 Contact: gemachistesfaye36@gmail.com  
-🔗 GitHub: [@gemachistesfaye](https://github.com/gemachistesfaye)
+**Gemachis Tesfaye**
+Full Stack Developer & AI Enthusiast
+
+📧 [gemachistesfaye36@gmail.com](mailto:gemachistesfaye36@gmail.com)
+🔗 [github.com/gemachistesfaye](https://github.com/gemachistesfaye)
+
+---
+
+<div align="center">
+  Made with ❤️ by Gemachis Tesfaye
+  <br/>
+  ⭐ Star this repo if you found it helpful!
+</div>

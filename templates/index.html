@@ -1,62 +1,861 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div style="text-align: center; padding: 60px 0;">
-    {% raw %}
-        <div style="display: inline-flex; align-items: center; gap: 8px; background: var(--primary-light); color: var(--primary); padding: 6px 16px; border-radius: 999px; font-weight: 600; font-size: 13px; margin-bottom: 24px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
-            GradeEvaluator v2.0 is Here
-        </div>
-{% endraw %}
-        <div class="card" style="text-align: center; padding: 32px 24px;">
-            <div style="font-size: 40px; margin-bottom: 16px;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2 4 4 8-8 2 2"/></svg>
-            </div>
-            <h3 style="font-size: 18px; margin-bottom: 8px;">Grade Tracking</h3>
-            <p style="color: var(--text-secondary); font-size: 14px;">Easily evaluate your numerical scores into letter grades and GPA points.</p>
-        </div>
-        <div class="card" style="text-align: center; padding: 32px 24px;">
-            <div style="font-size: 40px; margin-bottom: 16px;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><circle cx="12" cy="12" r="5"/></svg>
-            </div>
-            <h3 style="font-size: 18px; margin-bottom: 8px;">AI Feedback</h3>
-            <p style="color: var(--text-secondary); font-size: 14px;">Get instant, personalized feedback from GradeBot based on your performance.</p>
-        </div>
-        <div class="card" style="text-align: center; padding: 32px 24px;">
-            <div style="font-size: 40px; margin-bottom: 16px;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M12 3v18"/></svg>
-            </div>
-            <h3 style="font-size: 18px; margin-bottom: 8px;">Beautiful Insights</h3>
-            <p style="color: var(--text-secondary); font-size: 14px;">Visualize your academic journey with interactive charts and GPA trends.</p>
-        </div>{% endraw %}
-    <h1 style="font-size: 48px; font-weight: 800; color: var(--text-primary); margin-bottom: 16px; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.1;">
-        Your Personal AI <br> <span style="color: var(--primary);">Academic Coach.</span>
-    </h1>
-    <p style="font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto 32px auto;">
-        Evaluate your grades, track your cumulative GPA, and chat with an intelligent AI tutor to improve your academic performance.
-    </p>
-    <div style="display: flex; justify-content: center; gap: 16px;">
-        <a href="{{ url_for('register') }}" class="btn" style="padding: 14px 28px; font-size: 16px;">Get Started Free</a>
-        <a href="{{ url_for('login') }}" class="btn btn-outline" style="padding: 14px 28px; font-size: 16px;">Sign In</a>
+<style>
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards;
+}
+.feature-card {
+  background: var(--bg, #fff);
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.2s ease;
+}
+.feature-card:hover {
+  box-shadow: 0 8px 24px rgba(79,70,229,0.1);
+  transform: translateY(-2px);
+  border-color: var(--primary-border, #c7d2fe);
+}
+.feature-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--primary-light, #eef2ff);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  color: var(--primary, #4f46e5);
+}
+.step-num {
+  width: 48px;
+  height: 48px;
+  background: var(--primary-light, #eef2ff);
+  color: var(--primary, #4f46e5);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin: 0 auto 12px;
+}
+.testimonial-card {
+  background: var(--bg, #fff);
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 16px;
+  padding: 24px;
+}
+.faq-item {
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg, #fff);
+}
+.faq-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--bg, #fff);
+  border: none;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+}
+.faq-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  padding: 0 16px;
+  font-size: 14px;
+  color: var(--text-secondary, #6b7280);
+  line-height: 1.6;
+}
+.star-row {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 12px;
+}
+.star-row svg {
+  color: #f59e0b;
+  fill: #f59e0b;
+}
+</style>
+<style>
+  /* Global font size adjustments */
+  body, .fade-up, .feature-card, .feature-card div, .feature-card p,
+  .testimonial-card p, .faq-btn, .faq-content, .faq-content p,
+  .hero p, .hero h1, .hero h2, .hero h3 {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+  h1, h2, h3 {
+    font-size: 2rem !important;
+  }
+  .feature-card div {
+    font-size: 15px !important;
+  }
+  .feature-card p {
+    font-size: 14px !important;
+  }
+  .testimonial-card p {
+    font-size: 14px !important;
+  }
+  .faq-btn {
+    font-size: 15px !important;
+  }
+</style>
+
+<div style="max-width:1100px; margin:0 auto;
+     padding:40px 20px;">
+
+  <!-- HERO -->
+  <div style="text-align:center; padding:60px 24px
+       48px; background:linear-gradient(135deg,
+       #f8f9ff,#e0e7ff); border-radius:20px;
+       margin-bottom:48px;">
+
+    <div class="fade-up"
+         style="animation-delay:0ms;
+         display:inline-flex; align-items:center;
+         gap:8px; background:white;
+         color:var(--primary,#4f46e5);
+         padding:6px 16px; border-radius:999px;
+         font-size:13px; font-weight:600;
+         margin-bottom:20px;
+         border:1px solid rgba(79,70,229,0.15);">
+      <svg width="14" height="14" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor"
+           stroke-width="2.5" stroke-linecap="round"
+           stroke-linejoin="round">
+        <path d="M12 2l2 7h7l-5.5 4 2 7L12 16
+                 l-5.5 4 2-7L3 9h7z"/>
+      </svg>
+      v2.0 — Now with GradeBot AI
     </div>
+
+    <h1 class="fade-up"
+        style="animation-delay:100ms;
+        font-size:clamp(1.8rem,4vw,2.8rem);
+        font-weight:800;
+        color:var(--text-primary,#1e293b);
+        margin:0 0 14px; line-height:1.15;">
+      Track Grades. Understand Your
+      <span style="color:var(--primary,#4f46e5);">
+        CGPA.
+      </span>
+      Get AI Coaching.
+    </h1>
+
+    <p class="fade-up"
+       style="animation-delay:200ms;
+       font-size:15px;
+       color:var(--text-secondary,#64748b);
+       max-width:520px; margin:0 auto 28px;
+       line-height:1.7;">
+      GradeEvaluator turns your scores into
+      weighted GPA insights, interactive charts,
+      and personalized AI study advice —
+      built for Ethiopian university students.
+    </p>
+
+    <div class="fade-up"
+         style="animation-delay:250ms;
+         display:flex; flex-wrap:wrap; gap:10px;
+         justify-content:center;
+         margin-bottom:28px; font-size:13px;
+         color:var(--text-secondary,#64748b);
+         font-weight:500;">
+      <span style="display:flex; align-items:center;
+            gap:5px;">
+        <svg width="13" height="13"
+             viewBox="0 0 24 24" fill="none"
+             stroke="var(--primary,#4f46e5)"
+             stroke-width="2.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Weighted CGPA
+      </span>
+      <span style="display:flex; align-items:center;
+            gap:5px;">
+        <svg width="13" height="13"
+             viewBox="0 0 24 24" fill="none"
+             stroke="var(--primary,#4f46e5)"
+             stroke-width="2.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        AI Chatbot
+      </span>
+      <span style="display:flex; align-items:center;
+            gap:5px;">
+        <svg width="13" height="13"
+             viewBox="0 0 24 24" fill="none"
+             stroke="var(--primary,#4f46e5)"
+             stroke-width="2.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Charts & Analytics
+      </span>
+      <span style="display:flex; align-items:center;
+            gap:5px;">
+        <svg width="13" height="13"
+             viewBox="0 0 24 24" fill="none"
+             stroke="var(--primary,#4f46e5)"
+             stroke-width="2.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        PDF Export
+      </span>
+      <span style="display:flex; align-items:center;
+            gap:5px;">
+        <svg width="13" height="13"
+             viewBox="0 0 24 24" fill="none"
+             stroke="var(--primary,#4f46e5)"
+             stroke-width="2.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Free Forever
+      </span>
+    </div>
+
+    <div class="fade-up"
+         style="animation-delay:300ms;
+         display:flex; gap:12px;
+         justify-content:center; flex-wrap:wrap;">
+      <a href="{{ url_for('register') }}"
+         class="btn"
+         style="padding:12px 28px; font-size:15px;
+         border-radius:10px; font-weight:600;
+         text-decoration:none;
+         display:inline-flex; align-items:center;
+         gap:8px;">
+        <svg width="16" height="16"
+             viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        Get Started Free
+      </a>
+      <a href="{{ url_for('login') }}"
+         style="padding:12px 28px; font-size:15px;
+         background:white;
+         color:var(--primary,#4f46e5);
+         border:2px solid var(--primary,#4f46e5);
+         border-radius:10px; font-weight:600;
+         text-decoration:none;
+         display:inline-flex; align-items:center;
+         gap:8px;">
+        Login
+        <svg width="14" height="14"
+             viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- FEATURES GRID -->
+  <div style="margin-bottom:48px;">
+    <h2 style="font-size:18px; font-weight:700;
+        text-align:center; margin-bottom:8px;
+        color:var(--text-primary,#111827);">
+      Everything you need in one place
+    </h2>
+    <p style="text-align:center; font-size:13px;
+       color:var(--text-secondary,#6b7280);
+       margin-bottom:24px;">
+      Built specifically for Ethiopian university
+      students
+    </p>
+    <div style="display:grid;
+         grid-template-columns:
+         repeat(auto-fit,minmax(220px,1fr));
+         gap:16px;">
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="20" height="20"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M12 2l2 7h7l-5.5 4 2 7L12
+                     16l-5.5 4 2-7L3 9h7z"/>
+          </svg>
+        </div>
+        <div style="font-size:14px; font-weight:600;
+             margin-bottom:6px;
+             color:var(--text-primary,#111827);">
+          Weighted CGPA
+        </div>
+        <div style="font-size:13px;
+             color:var(--text-secondary,#6b7280);
+             line-height:1.6;">
+          Real cumulative GPA calculated using
+          credit hours — not a simple average.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="20" height="20"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7
+                     l-4 4V5a2 2 0 0 1 2-2h14
+                     a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div style="font-size:14px; font-weight:600;
+             margin-bottom:6px;
+             color:var(--text-primary,#111827);">
+          GradeBot AI Coach
+        </div>
+        <div style="font-size:13px;
+             color:var(--text-secondary,#6b7280);
+             line-height:1.6;">
+          Chat with your personal AI tutor.
+          Get study tips, plans, and resources
+          tailored to your grade.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="20" height="20"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <div style="font-size:14px; font-weight:600;
+             margin-bottom:6px;
+             color:var(--text-primary,#111827);">
+          Interactive Charts
+        </div>
+        <div style="font-size:13px;
+             color:var(--text-secondary,#6b7280);
+             line-height:1.6;">
+          Bar, pie, and line charts showing
+          your performance trends across
+          all subjects and semesters.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="20" height="20"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2
+                     2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12
+                              15 22"/>
+          </svg>
+        </div>
+        <div style="font-size:14px; font-weight:600;
+             margin-bottom:6px;
+             color:var(--text-primary,#111827);">
+          Semester Grouping
+        </div>
+        <div style="font-size:13px;
+             color:var(--text-secondary,#6b7280);
+             line-height:1.6;">
+          Organize grades by semester.
+          See SGPA per semester and track
+          your progress over time.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="20" height="20"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16
+                     a2 2 0 0 0 2 2h12a2 2 0 0 0
+                     2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <polyline points="9 15 12 18 15 15"/>
+          </svg>
+        </div>
+        <div style="font-size:14px; font-weight:600;
+             margin-bottom:6px;
+             color:var(--text-primary,#111827);">
+          PDF & CSV Export
+        </div>
+        <div style="font-size:13px;
+             color:var(--text-secondary,#6b7280);
+             line-height:1.6;">
+          Download your full grade transcript
+          as a formatted PDF or CSV
+          spreadsheet anytime.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="20" height="20"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <rect x="3" y="11" width="18"
+                  height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div style="font-size:14px; font-weight:600;
+             margin-bottom:6px;
+             color:var(--text-primary,#111827);">
+          Secure & Private
+        </div>
+        <div style="font-size:13px;
+             color:var(--text-secondary,#6b7280);
+             line-height:1.6;">
+          Your data is encrypted and private.
+          Only you can see your grades
+          and academic history.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div style="margin-bottom:48px; text-align:center;">
+    <h2 style="font-size:18px; font-weight:700;
+        margin-bottom:24px;
+        color:var(--text-primary,#111827);">
+      How it works
+    </h2>
+    <div style="display:grid;
+         grid-template-columns:
+         repeat(auto-fit,minmax(200px,1fr));
+         gap:24px;">
+
+      <div>
+        <div class="step-num">1</div>
+        <div style="font-size:14px; font-weight:600;
+             margin-bottom:6px;
+             color:var(--text-primary,#111827);">
+          Log Your Courses
+        </div>
+        <div style="font-size:13px;
+             color:var(--text-secondary,#6b7280);
+             line-height:1.6;">
+          Enter subject name, score,
+          and credit hours.
+        </div>
+      </div>
+
+      <div>
+        <div class="step-num">2</div>
+        <div style="font-size:14px; font-weight:600;
+             margin-bottom:6px;
+             color:var(--text-primary,#111827);">
+          View Your Analytics
+        </div>
+        <div style="font-size:13px;
+             color:var(--text-secondary,#6b7280);
+             line-height:1.6;">
+          Instantly see charts, CGPA,
+          and grade breakdown.
+        </div>
+      </div>
+
+      <div>
+        <div class="step-num">3</div>
+        <div style="font-size:14px; font-weight:600;
+             margin-bottom:6px;
+             color:var(--text-primary,#111827);">
+          Chat with GradeBot
+        </div>
+        <div style="font-size:13px;
+             color:var(--text-secondary,#6b7280);
+             line-height:1.6;">
+          Get personalized AI advice
+          for every subject.
+        </div>
+      </div>
+
+      <div>
+        <div class="step-num">4</div>
+        <div style="font-size:14px; font-weight:600;
+             margin-bottom:6px;
+             color:var(--text-primary,#111827);">
+          Export & Share
+        </div>
+        <div style="font-size:13px;
+             color:var(--text-secondary,#6b7280);
+             line-height:1.6;">
+          Download your transcript
+          as PDF or CSV.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GRADING SCALE -->
+  <div style="background:var(--bg-secondary,#f9fafb);
+       border:1px solid var(--border,#e5e7eb);
+       border-radius:16px; padding:28px;
+       margin-bottom:48px;">
+    <h2 style="font-size:16px; font-weight:700;
+        margin-bottom:16px; text-align:center;
+        color:var(--text-primary,#111827);
+        display:flex; align-items:center;
+        justify-content:center; gap:8px;">
+      <svg width="16" height="16"
+           viewBox="0 0 24 24" fill="none"
+           stroke="var(--primary,#4f46e5)"
+           stroke-width="2" stroke-linecap="round"
+           stroke-linejoin="round">
+        <line x1="8" y1="6" x2="21" y2="6"/>
+        <line x1="8" y1="12" x2="21" y2="12"/>
+        <line x1="8" y1="18" x2="21" y2="18"/>
+        <line x1="3" y1="6" x2="3.01" y2="6"/>
+        <line x1="3" y1="12" x2="3.01" y2="12"/>
+        <line x1="3" y1="18" x2="3.01" y2="18"/>
+      </svg>
+      Grading Scale
+    </h2>
+    <div style="display:grid;
+         grid-template-columns:
+         repeat(auto-fit,minmax(140px,1fr));
+         gap:8px; font-size:13px;">
+      <div style="display:flex; align-items:center;
+           gap:8px;">
+        <span class="badge badge-a">A+</span>
+        90–100 (4.0)
+      </div>
+      <div style="display:flex; align-items:center;
+           gap:8px;">
+        <span class="badge badge-a">A</span>
+        85–89.9 (4.0)
+      </div>
+      <div style="display:flex; align-items:center;
+           gap:8px;">
+        <span class="badge badge-a">A-</span>
+        80–84.9 (3.75)
+      </div>
+      <div style="display:flex; align-items:center;
+           gap:8px;">
+        <span class="badge badge-b">B+</span>
+        75–79.9 (3.5)
+      </div>
+      <div style="display:flex; align-items:center;
+           gap:8px;">
+        <span class="badge badge-b">B</span>
+        70–74.9 (3.0)
+      </div>
+      <div style="display:flex; align-items:center;
+           gap:8px;">
+        <span class="badge badge-b">B-</span>
+        65–69.9 (2.75)
+      </div>
+      <div style="display:flex; align-items:center;
+           gap:8px;">
+        <span class="badge badge-c">C+</span>
+        60–64.9 (2.5)
+      </div>
+      <div style="display:flex; align-items:center;
+           gap:8px;">
+        <span class="badge badge-c">C</span>
+        55–59.9 (2.0)
+      </div>
+      <div style="display:flex; align-items:center;
+           gap:8px;">
+        <span class="badge badge-c">C-</span>
+        50–54.9 (1.75)
+      </div>
+      <div style="display:flex; align-items:center;
+           gap:8px;">
+        <span class="badge badge-d">D</span>
+        40–49.9 (1.5)
+      </div>
+      <div style="display:flex; align-items:center;
+           gap:8px; grid-column:span 2;">
+        <span class="badge badge-f">F</span>
+        Below 40 — NG (0.0)
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div style="margin-bottom:48px;">
+    <h2 style="font-size:18px; font-weight:700;
+        text-align:center; margin-bottom:24px;
+        color:var(--text-primary,#111827);">
+      What students say
+    </h2>
+    <div style="display:grid;
+         grid-template-columns:
+         repeat(auto-fit,minmax(250px,1fr));
+         gap:16px;">
+
+      <div class="testimonial-card">
+        <div class="star-row">
+          {% for i in range(5) %}
+          <svg width="14" height="14"
+               viewBox="0 0 24 24"
+               stroke-width="0">
+            <path d="M12 2l2 7h7l-5.5 4 2 7L12
+                     16l-5.5 4 2-7L3 9h7z"
+                  fill="#f59e0b"/>
+          </svg>
+          {% endfor %}
+        </div>
+        <p style="font-size:13px;
+           color:var(--text-secondary,#6b7280);
+           font-style:italic; margin-bottom:14px;
+           line-height:1.6;">
+          "Helped me keep track of my CGPA
+          at AAU effortlessly. I finally
+          understand my grades."
+        </p>
+        <div style="font-size:13px; font-weight:600;
+             color:var(--text-primary,#111827);">
+          Abebech K.
+        </div>
+        <div style="font-size:12px;
+             color:var(--text-secondary,#6b7280);">
+          Addis Ababa University
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="star-row">
+          {% for i in range(5) %}
+          <svg width="14" height="14"
+               viewBox="0 0 24 24"
+               stroke-width="0">
+            <path d="M12 2l2 7h7l-5.5 4 2 7L12
+                     16l-5.5 4 2-7L3 9h7z"
+                  fill="#f59e0b"/>
+          </svg>
+          {% endfor %}
+        </div>
+        <p style="font-size:13px;
+           color:var(--text-secondary,#6b7280);
+           font-style:italic; margin-bottom:14px;
+           line-height:1.6;">
+          "GradeBot's study suggestions
+          completely changed how I prepare
+          for exams."
+        </p>
+        <div style="font-size:13px; font-weight:600;
+             color:var(--text-primary,#111827);">
+          Dawit M.
+        </div>
+        <div style="font-size:12px;
+             color:var(--text-secondary,#6b7280);">
+          Adama Science & Technology University
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="star-row">
+          {% for i in range(5) %}
+          <svg width="14" height="14"
+               viewBox="0 0 24 24"
+               stroke-width="0">
+            <path d="M12 2l2 7h7l-5.5 4 2 7L12
+                     16l-5.5 4 2-7L3 9h7z"
+                  fill="#f59e0b"/>
+          </svg>
+          {% endfor %}
+        </div>
+        <p style="font-size:13px;
+           color:var(--text-secondary,#6b7280);
+           font-style:italic; margin-bottom:14px;
+           line-height:1.6;">
+          "Exporting my transcript as PDF
+          for scholarship applications
+          was so easy."
+        </p>
+        <div style="font-size:13px; font-weight:600;
+             color:var(--text-primary,#111827);">
+          Selamawit T.
+        </div>
+        <div style="font-size:12px;
+             color:var(--text-secondary,#6b7280);">
+          Bahir Dar University
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div style="margin-bottom:48px;">
+    <h2 style="font-size:18px; font-weight:700;
+        text-align:center; margin-bottom:24px;
+        color:var(--text-primary,#111827);">
+      Frequently asked questions
+    </h2>
+    <div style="max-width:640px; margin:0 auto;
+         display:flex; flex-direction:column;
+         gap:10px;">
+
+      {% set faqs = [
+        ("Is my data private?",
+         "Yes. All your data is stored securely
+          in your own account. Only you can
+          access your grades and history."),
+        ("Which universities does this support?",
+         "Any university that uses a 0-100 scoring
+          system. Designed specifically for AAU,
+          ASTU, BDU, HU, JU and other Ethiopian
+          universities."),
+        ("Is it free to use?",
+         "100% free. No subscription, no credit
+          card, no hidden fees. Create an account
+          and start tracking immediately."),
+        ("How does the GPA calculation work?",
+         "We use weighted GPA — each course's GPA
+          points are multiplied by its credit hours,
+          then divided by total credits. This gives
+          your true CGPA, not a simple average.")
+      ] %}
+
+      {% for question, answer in faqs %}
+      <div class="faq-item">
+        <button class="faq-btn"
+                onclick="toggleFaq(this)">
+          <span>{{ question }}</span>
+          <svg class="chevron" width="18" height="18"
+               viewBox="0 0 24 24" fill="none"
+               stroke="var(--text-secondary,#64748b)"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               style="transition:transform .3s;
+               flex-shrink:0;">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="faq-content">
+          <p style="margin:12px 0;">{{ answer }}</p>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div style="text-align:center;
+       background:var(--primary,#4f46e5);
+       padding:48px 24px; border-radius:20px;
+       margin-bottom:24px;">
+    <h2 style="font-size:20px; font-weight:700;
+        margin-bottom:10px; color:white;">
+      Ready to take control of your grades?
+    </h2>
+    <p style="font-size:14px; color:rgba(255,255,255,0.85);
+       margin:0 auto 24px; max-width:400px;
+       line-height:1.6;">
+      Join students from across Ethiopia who
+      are already tracking smarter.
+    </p>
+    <div style="display:flex; gap:12px;
+         justify-content:center; flex-wrap:wrap;">
+      <a href="{{ url_for('register') }}"
+         style="background:white;
+         color:var(--primary,#4f46e5);
+         padding:12px 28px; border-radius:10px;
+         font-weight:600; font-size:15px;
+         text-decoration:none;
+         display:inline-flex; align-items:center;
+         gap:8px;">
+        <svg width="15" height="15"
+             viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6
+                   a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <line x1="19" y1="8" x2="19" y2="14"/>
+          <line x1="22" y1="11" x2="16" y2="11"/>
+        </svg>
+        Create Free Account
+      </a>
+      <a href="{{ url_for('login') }}"
+         style="background:rgba(255,255,255,0.15);
+         color:white; padding:12px 28px;
+         border-radius:10px; font-weight:600;
+         font-size:15px; text-decoration:none;
+         border:1px solid rgba(255,255,255,0.3);
+         display:inline-flex; align-items:center;
+         gap:8px;">
+        Login
+        <svg width="14" height="14"
+             viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px;">
-    <div class="card" style="text-align: center; padding: 32px 24px;">
-        <div style="font-size: 40px; margin-bottom: 16px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M9 17l3-8 4 4 5-5"/></svg></div>
-        <h3 style="font-size: 18px; margin-bottom: 8px;">Grade Tracking</h3>
-        <p style="color: var(--text-secondary); font-size: 14px;">Easily evaluate your numerical scores into letter grades and GPA points.</p>
-    </div>
-    <div class="card" style="text-align: center; padding: 32px 24px;">
-        <div style="font-size: 40px; margin-bottom: 16px;">🤖</div>
-        <h3 style="font-size: 18px; margin-bottom: 8px;">AI Feedback</h3>
-        <p style="color: var(--text-secondary); font-size: 14px;">Get instant, personalized feedback from GradeBot based on your performance.</p>
-    </div>
-    <div class="card" style="text-align: center; padding: 32px 24px;">
-        <div style="font-size: 40px; margin-bottom: 16px;">📈</div>
-        <h3 style="font-size: 18px; margin-bottom: 8px;">Beautiful Insights</h3>
-        <p style="color: var(--text-secondary); font-size: 14px;">Visualize your academic journey with interactive charts and GPA trends.</p>
-    </div>
-</div>
+<script>
+function toggleFaq(btn) {
+  const content = btn.nextElementSibling;
+  const chevron = btn.querySelector('.chevron');
+  if (content.style.maxHeight) {
+    content.style.maxHeight = '';
+    chevron.style.transform = 'rotate(0deg)';
+  } else {
+    content.style.maxHeight =
+      content.scrollHeight + 'px';
+    chevron.style.transform = 'rotate(180deg)';
+  }
+}
+</script>
 
 {% endblock %}

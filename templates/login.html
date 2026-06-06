@@ -1,28 +1,209 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div style="max-width: 400px; margin: 40px auto; text-align: center;">
-    <div style="font-size: 48px; margin-bottom: 16px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-    <h1 style="font-size: 28px; margin-bottom: 8px;">Welcome Back</h1>
-    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 32px;">Sign in to continue to GradeEvaluator.</p>
+<div style="min-height:calc(100vh - 80px);
+     display:flex; align-items:center;
+     justify-content:center; padding:24px;">
 
-    <div class="card" style="text-align: left; padding: 32px;">
-        <form method="POST">
-            <div class="form-group">
-                <label class="form-label">Email Address</label>
-                <input type="email" name="email" placeholder="you@example.com" required>
+  <div style="width:100%; max-width:460px;">
+
+    <div class="card"
+         style="padding:48px; border-radius:24px;
+         box-shadow:0 20px 60px rgba(79,70,229,0.08),
+         0 4px 16px rgba(0,0,0,0.04);">
+
+      <!-- Header -->
+      <div style="text-align:center;
+           margin-bottom:32px;">
+        <div style="display:inline-flex;
+             width:60px; height:60px;
+             align-items:center;
+             justify-content:center;
+             background:var(--primary-light,#eef2ff);
+             color:var(--primary,#4f46e5);
+             border-radius:18px;
+             margin-bottom:16px;">
+          <svg width="28" height="28"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5
+                     -10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <h1 style="font-size:22px; font-weight:800;
+            color:var(--text-primary,#111827);
+            margin:0 0 8px; letter-spacing:-0.02em;">
+          Welcome back
+        </h1>
+        <p style="font-size:14px;
+           color:var(--text-secondary,#6b7280);
+           margin:0;">
+          Sign in to continue to GradeEvaluator
+        </p>
+      </div>
+
+      <!-- Form -->
+      <form method="POST">
+
+        <!-- Email -->
+        <div style="margin-bottom:16px;">
+          <label class="form-label">
+            Email Address
+          </label>
+          <div style="position:relative;">
+            <div style="position:absolute; left:12px;
+                 top:50%; transform:translateY(-50%);
+                 color:var(--text-secondary,#6b7280);
+                 pointer-events:none;">
+              <svg width="16" height="16"
+                   viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor"
+                   stroke-width="2"
+                   stroke-linecap="round"
+                   stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12
+                         c0 1.1-.9 2-2 2H4c-1.1 0
+                         -2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
             </div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" name="password" placeholder="••••••••" required>
+            <input type="email" name="email"
+                   placeholder="you@university.edu.et"
+                   required
+                   autocomplete="email"
+                   style="padding-left:40px;
+                   margin-bottom:0;">
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div style="margin-bottom:28px;">
+          <label class="form-label">
+            Password
+          </label>
+          <div style="position:relative;">
+            <div style="position:absolute; left:12px;
+                 top:50%; transform:translateY(-50%);
+                 color:var(--text-secondary,#6b7280);
+                 pointer-events:none;">
+              <svg width="15" height="15"
+                   viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor"
+                   stroke-width="2"
+                   stroke-linecap="round"
+                   stroke-linejoin="round">
+                <rect x="3" y="11" width="18"
+                      height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
             </div>
-            <button type="submit" class="btn" style="width: 100%; margin-top: 8px; padding: 12px;">Sign In</button>
-        </form>
+            <input type="password" name="password"
+                   placeholder="Your password"
+                   required
+                   autocomplete="current-password"
+                   style="padding-left:38px;
+                   margin-bottom:0;">
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn"
+                style="width:100%; padding:13px;
+                font-size:15px; font-weight:600;
+                display:flex; align-items:center;
+                justify-content:center; gap:8px;
+                border-radius:12px;
+                box-shadow:0 4px 12px
+                rgba(79,70,229,0.3);">
+          <svg width="16" height="16"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor"
+               stroke-width="2.5"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14
+                     a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/>
+            <line x1="15" y1="12" x2="3" y2="12"/>
+          </svg>
+          Sign In
+        </button>
+
+      </form>
+
+      <!-- Divider -->
+      <div style="display:flex; align-items:center;
+           gap:12px; margin:24px 0;">
+        <div style="flex:1; height:1px;
+             background:var(--border,#e5e7eb);"></div>
+        <span style="font-size:12px;
+              color:var(--text-tertiary,#9ca3af);
+              font-weight:500;">
+          New to GradeEvaluator?
+        </span>
+        <div style="flex:1; height:1px;
+             background:var(--border,#e5e7eb);"></div>
+      </div>
+
+      <!-- Register link -->
+      <a href="{{ url_for('register') }}"
+         style="display:flex; align-items:center;
+         justify-content:center; gap:8px;
+         width:100%; padding:12px;
+         border:1px solid var(--border,#e5e7eb);
+         border-radius:12px; font-size:14px;
+         font-weight:600;
+         color:var(--text-primary,#111827);
+         text-decoration:none;
+         background:var(--bg-secondary,#f9fafb);
+         transition:all 0.2s ease;">
+        <svg width="15" height="15"
+             viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6
+                   a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <line x1="19" y1="8" x2="19" y2="14"/>
+          <line x1="22" y1="11" x2="16" y2="11"/>
+        </svg>
+        Create a free account
+      </a>
+
+      <!-- Back to website -->
+      <div style="margin-top:20px;
+           text-align:center;">
+        <a href="{{ url_for('index') }}"
+           style="display:inline-flex;
+           align-items:center; gap:6px;
+           color:var(--text-secondary,#6b7280);
+           font-size:13px; text-decoration:none;">
+          <svg width="13" height="13"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Back to website
+        </a>
+      </div>
+
     </div>
-    
-    <p style="margin-top: 24px; font-size: 14px; color: var(--text-secondary);">
-        Don't have an account? <a href="{{ url_for('register') }}" style="font-weight: 600;">Sign up</a>
+
+    <!-- Footer note -->
+    <p style="text-align:center; font-size:12px;
+       color:var(--text-tertiary,#9ca3af);
+       margin-top:16px; line-height:1.6;">
+      Your academic data is private,
+      encrypted, and only visible to you.
     </p>
+
+  </div>
 </div>
 
 {% endblock %}

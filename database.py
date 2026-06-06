@@ -16,6 +16,7 @@ def init_db():
                 name TEXT NOT NULL,
                 email TEXT UNIQUE NOT NULL,
                 password_hash TEXT NOT NULL,
+                university TEXT,
                 joined_date TEXT NOT NULL
             )
         ''')
@@ -35,13 +36,18 @@ def init_db():
                 FOREIGN KEY(student_id) REFERENCES students(id)
             )
         ''')
-        conn.commit()
+        # Add university column if it doesn't exist yet
+        try:
+            conn.execute("ALTER TABLE students ADD COLUMN university TEXT DEFAULT ''")
+            conn.commit()
+        except sqlite3.OperationalError:
+            pass  # Column already exists
 
-def create_student(name, email, password_hash, joined_date):
+def create_student(name, email, password_hash, joined_date, university=""):
     with get_db() as conn:
         conn.execute(
-            "INSERT INTO students (name, email, password_hash, joined_date) VALUES (?, ?, ?, ?)",
-            (name, email, password_hash, joined_date)
+            "INSERT INTO students (name, email, password_hash, university, joined_date) VALUES (?, ?, ?, ?, ?)",
+            (name, email, password_hash, university, joined_date)
         )
         conn.commit()
 
@@ -58,6 +64,15 @@ def get_student_by_id(student_id):
 def update_user_password(user_id, new_password_hash):
     with get_db() as conn:
         conn.execute("UPDATE students SET password_hash = ? WHERE id = ?", (new_password_hash, user_id))
+        conn.commit()
+
+# Update name and university fields
+def update_user_profile(user_id, name=None, university=None):
+    with get_db() as conn:
+        if name is not None:
+            conn.execute("UPDATE students SET name = ? WHERE id = ?", (name, user_id))
+        if university is not None:
+            conn.execute("UPDATE students SET university = ? WHERE id = ?", (university, user_id))
         conn.commit()
 
 def get_user_profile(user_id):
