@@ -1,11 +1,11 @@
-import os
+﻿import os
 from dotenv import load_dotenv
 load_dotenv()
 from google import genai
 import markdown
 
 SYSTEM_PROMPT = """You are GradeBot, a friendly and 
-smart academic coach inside GradeEvaluator app.
+smart academic coach inside GradeEvaluator AI app.
 
 You are talking to a student who just evaluated 
 their grade. You know their result:
@@ -89,7 +89,7 @@ def generate_first_message(student_name, subject,
     except Exception as e:
         return f"Hi {student_name}! Great job submitting your {subject} grade. I'm having trouble connecting right now. Try again shortly!"
 
-GENERAL_SYSTEM_PROMPT = """You are GradeBot, a friendly and smart academic coach inside the GradeEvaluator app.
+GENERAL_SYSTEM_PROMPT = """You are GradeBot, a friendly and smart academic coach inside the GradeEvaluator AI app.
 
 Student Name: {student_name}
 {grade_context}

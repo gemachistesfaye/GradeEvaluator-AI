@@ -1,4 +1,4 @@
-# Security Policy 🔐
+﻿# Security Policy 🔐
 
 ## Reporting Vulnerabilities
 
@@ -28,4 +28,4 @@ We will coordinate public disclosure responsibly, crediting the reporter and pub
 - Store secrets in environment variables, never in source code.
 - Enable Flask‑WTF CSRF protection.
 
-Thank you for helping keep GradeEvaluator safe! 🌟
+Thank you for helping keep GradeEvaluator AI safe! 🌟

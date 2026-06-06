@@ -1,7 +1,7 @@
-import sqlite3
+﻿import sqlite3
 from datetime import datetime
 
-DATABASE = 'gradeevaluator.db'
+DATABASE = 'GradeEvaluator AI.db'
 
 def get_db():
     conn = sqlite3.connect(DATABASE)

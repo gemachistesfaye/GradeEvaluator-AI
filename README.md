@@ -1,6 +1,6 @@
-<div align="center">
+﻿<div align="center">
 
-<img src="static/logo.svg" width="80" alt="GradeEvaluator Logo" />
+<img src="static/logo.svg" width="80" alt="GradeEvaluator AI Logo" />
 
 # 🎓 GradeEvaluator AI
 
@@ -17,8 +17,8 @@
 <br/>
 
 🌐 **[Live Demo](https://grade-evaluator.onrender.com)** · 
-🐛 **[Report Bug](https://github.com/gemachistesfaye/GradeEvaluator/issues)** · 
-✨ **[Request Feature](https://github.com/gemachistesfaye/GradeEvaluator/issues)**
+🐛 **[Report Bug](https://github.com/gemachistesfaye/GradeEvaluator AI/issues)** · 
+✨ **[Request Feature](https://github.com/gemachistesfaye/GradeEvaluator AI/issues)**
 
 </div>
 
@@ -91,7 +91,7 @@ your personal AI academic coach powered by Google Gemini.
 ## 📁 Project Structure
 
 ```
-GradeEvaluator/
+GradeEvaluator AI/
 ├── app.py                 # Flask routes & core logic
 ├── database.py            # SQLite database setup & queries
 ├── ai_feedback.py         # Google Gemini AI integration
@@ -139,8 +139,8 @@ GradeEvaluator/
 
 **1. Clone the repository:**
 ```bash
-git clone https://github.com/gemachistesfaye/GradeEvaluator.git
-cd GradeEvaluator
+git clone https://github.com/gemachistesfaye/GradeEvaluator AI.git
+cd GradeEvaluator AI
 ```
 
 **2. Create and activate virtual environment:**

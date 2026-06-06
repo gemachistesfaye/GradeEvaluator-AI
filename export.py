@@ -1,4 +1,4 @@
-import csv
+﻿import csv
 import datetime
 from io import StringIO, BytesIO
 from flask import Response
@@ -26,7 +26,7 @@ def export_grades_pdf(grades, student_name):
     styles = getSampleStyleSheet()
     elements = []
     
-    elements.append(Paragraph("GradeEvaluator — Grade Report", styles['Title']))
+    elements.append(Paragraph("GradeEvaluator AI — Grade Report", styles['Title']))
     elements.append(Spacer(1, 12))
     elements.append(Paragraph(f"Student Name: {student_name}", styles['Normal']))
     date_str = datetime.datetime.now().strftime("%B %d, %Y")

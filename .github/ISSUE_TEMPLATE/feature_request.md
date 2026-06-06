@@ -1,6 +1,6 @@
----
+﻿---
 name: Feature request
-about: Suggest an idea for GradeEvaluator
+about: Suggest an idea for GradeEvaluator AI
 title: '[FEATURE] '
 labels: enhancement
 assignees: ''

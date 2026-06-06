@@ -1,14 +1,14 @@
-# Contributing to GradeEvaluator 🚀
+﻿# Contributing to GradeEvaluator AI 🚀
 
-First off, thank you for considering contributing to GradeEvaluator! It's people like you that make GradeEvaluator such a great tool for students.
+First off, thank you for considering contributing to GradeEvaluator AI! It's people like you that make GradeEvaluator AI such a great tool for students.
 
 ## Where do I go from here?
 
-If you've noticed a bug or have a feature request, make sure to check our [Issues](https://github.com/gemachistesfaye/GradeEvaluator/issues) page to see if someone else has already created a ticket. If not, go ahead and [make one](https://github.com/gemachistesfaye/GradeEvaluator/issues/new/choose)!
+If you've noticed a bug or have a feature request, make sure to check our [Issues](https://github.com/gemachistesfaye/GradeEvaluator AI/issues) page to see if someone else has already created a ticket. If not, go ahead and [make one](https://github.com/gemachistesfaye/GradeEvaluator AI/issues/new/choose)!
 
 ## Fork & create a branch
 
-If this is something you think you can fix, then fork GradeEvaluator and create a branch with a descriptive name.
+If this is something you think you can fix, then fork GradeEvaluator AI and create a branch with a descriptive name.
 
 A good branch name would be (where issue #325 is the ticket you're working on):
 
