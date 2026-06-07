@@ -34,24 +34,26 @@ their academic trajectory.
 
 Enter your subject scores, get instant letter
 grades, track your weighted cumulative GPA across
-semesters, and chat with **GradeBot** — your
+semesters and chat with **GradeBot** — your
 personal AI academic coach powered by Google Gemini.
 
 ---
 
 ## 📸 Screenshots
 
-| Dashboard & Analytics | GradeBot AI Chatbot |
-| :---: | :---: |
-| ![Dashboard](SCREENSHOT_1) | ![GradeBot](SCREENSHOT_2) |
+### Project Interface Overview
 
-| Dark Mode | Grade History |
-| :---: | :---: |
-| ![Dark Mode](SCREENSHOT_3) | ![History](SCREENSHOT_4) |
+| Landing Page | Grade Report | GradeBot AI Chatbot |
+| :---: | :---: | :---: |
+| ![Landing](https://github.com/user-attachments/assets/f1126582-2de9-46d4-af1c-259aedeac304) | ![Grade Report](https://github.com/user-attachments/assets/65d2ce44-f27d-452b-8a88-27c00162af78) | ![GradeBot](https://github.com/user-attachments/assets/7dd4cc97-7263-4d5e-9dec-1386f0d3e686) |
 
-| Register Page | Landing Page |
+| Dashboard & Analytics | Dark Mode Interface | Grade History |
+| :---: | :---: | :---: |
+| ![Dashboard](https://github.com/user-attachments/assets/f901cc98-8401-4940-b3e1-48cb2f85406a) | ![Dark Mode](https://github.com/user-attachments/assets/84d6fa3a-8a64-4952-a7bd-6c09c3f4d317) | ![History](https://github.com/user-attachments/assets/6f5d2385-a081-4f7b-857e-aae9055f9447) |
+
+| Registration Page | Notifications |
 | :---: | :---: |
-| ![Register](SCREENSHOT_5) | ![Landing](SCREENSHOT_6) |
+| ![Register](https://github.com/user-attachments/assets/849d28fc-a6e6-4895-9ef3-6a7118166650) | ![Notifications](https://github.com/user-attachments/assets/7be85e46-1be7-4112-8120-909bad6e8cb2) |
 
 ---
 
@@ -66,7 +68,7 @@ personal AI academic coach powered by Google Gemini.
 | 📄 **PDF & CSV Export** | Download full grade transcripts anytime |
 | 🔐 **Secure Auth** | Register, login, change password with bcrypt hashing |
 | 📋 **Grade History** | Full searchable history with per-grade delete |
-| 🏫 **Semester Grouping** | Organize grades by semester, see SGPA per semester |
+| 🏫 **Semester Grouping** | Organize grades by semester, see GPA per semester |
 
 ---
 
