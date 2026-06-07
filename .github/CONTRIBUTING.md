@@ -1,52 +1,73 @@
-﻿# Contributing to GradeEvaluator AI 🚀
+# 🤝 Contributing to GradeEvaluator AI
 
-First off, thank you for considering contributing to GradeEvaluator AI! It's people like you that make GradeEvaluator AI such a great tool for students.
+Thank you for contributing! Every bug report
+and pull request helps students track their
+grades better. 🎓
 
-## Where do I go from here?
+---
 
-If you've noticed a bug or have a feature request, make sure to check our [Issues](https://github.com/gemachistesfaye/GradeEvaluator AI/issues) page to see if someone else has already created a ticket. If not, go ahead and [make one](https://github.com/gemachistesfaye/GradeEvaluator AI/issues/new/choose)!
+## 🐛 Bug or Feature Request?
 
-## Fork & create a branch
+Check the [Issues page](https://github.com/gemachistesfaye/GradeEvaluator/issues)
+first. If it's not there, open a
+[new one](https://github.com/gemachistesfaye/GradeEvaluator/issues/new/choose).
 
-If this is something you think you can fix, then fork GradeEvaluator AI and create a branch with a descriptive name.
+---
 
-A good branch name would be (where issue #325 is the ticket you're working on):
-
-```sh
-git checkout -b 325-add-localization-support
-```
-
-## Implementation Guidelines
-
-### Frontend (Vanilla JS + CSS)
-- We use Vanilla CSS (no Tailwind) to keep the project lightweight.
-- Ensure that any new styles respect our `dark-theme` CSS variables located in `base.html`.
-- Maintain the glassmorphism and modern UI aesthetics of the project.
-- Write clean, modular Vanilla JavaScript. Keep scope contained.
-
-### Backend (Python/Flask)
-- Follow PEP 8 style guide for Python code.
-- Ensure all new routes in `app.py` handle both GET and POST requests appropriately if form data is involved.
-- Add logging where necessary, but keep it clean.
-
-- **Frontend:** Use Vanilla JS and CSS. Respect existing `dark-theme` variables and maintain glassmorphism aesthetics.
-- **Backend (Flask):** Follow PEP 8, handle GET/POST requests appropriately, and keep logs clean.
-
-## Setup
+## 🛠️ Setup
 
 ```bash
+git clone https://github.com/YOUR_USERNAME/GradeEvaluator.git
+cd GradeEvaluator
 python -m venv venv
-source venv/bin/activate
+venv\Scripts\activate        # Windows
+source venv/bin/activate     # macOS/Linux
 pip install -r requirements.txt
+python run.py
 ```
 
-Run `python run.py` to test locally on `http://localhost:5000`.
+Create a `.env` file in the root:
 
-## Pull Requests
+```
+FLASK_SECRET_KEY=your_key
+GEMINI_API_KEY=your_gemini_key
+```
 
-1. Follow style guidelines.
-2. Use a descriptive PR title.
-3. Complete the PR template.
-4. Include screenshots for UI changes.
+---
 
-We aim to review PRs within one business day. Thank you for contributing! 🎉
+## 🌿 Workflow
+
+```bash
+# Create a branch
+git checkout -b fix/your-fix-name
+
+# Commit clearly
+git commit -m "fix: what you changed"
+
+# Push
+git push origin fix/your-fix-name
+```
+
+Then open a **Pull Request** and include
+screenshots for any UI changes.
+
+---
+
+## 📋 Guidelines
+
+- Vanilla CSS and JS only — no frameworks
+- Use CSS variables — never hardcode colors
+- Test both light and dark mode
+- Follow PEP 8 for all Python code
+- Always check `"user_id" in session`
+- Use parameterized SQL — never string formatting
+- Never commit `.env` or `.db` files
+
+---
+
+## 📬 Contact
+
+📧 gemachistesfaye36@gmail.com
+🔗 [@gemachistesfaye](https://github.com/gemachistesfaye)
+
+*Built with ❤️ for Ethiopian Students · June 2026*
