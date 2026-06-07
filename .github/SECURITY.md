@@ -1,31 +1,51 @@
-﻿# Security Policy 🔐
+# 🔐 Security Policy
 
-## Reporting Vulnerabilities
+## Reporting a Vulnerability
 
-If you discover a security vulnerability, please let us know promptly so we can address it. Send an email to **gemachistesfaye36@gmail.com** with the subject line `[SECURITY] Vulnerability Report`.
+If you discover a security vulnerability please
+**do not** open a public GitHub issue.
 
-## Preferred Communication
+Instead email us directly:
 
-- Use encrypted email (PGP) if possible.
-- Provide a clear description, steps to reproduce, and potential impact.
-- Include any suggested mitigations.
+📧 **gemachistesfaye36@gmail.com**
+Subject: `[SECURITY] Vulnerability Report`
 
-## Response Timeline
+Please include:
+- Clear description of the vulnerability
+- Steps to reproduce it
+- Potential impact
+- Any suggested fixes
 
-We aim to:
-- Acknowledge receipt within **24 hours**.
-- Provide an initial assessment within **48 hours**.
-- Release a fix or mitigation as soon as feasible.
+---
 
-## Disclosure
+## ⏱️ Response Timeline
 
-We will coordinate public disclosure responsibly, crediting the reporter and publishing a security advisory after a fix is released.
+| Step | Timeframe |
+|---|---|
+| Acknowledgement | Within 24 hours |
+| Initial assessment | Within 48 hours |
+| Fix or mitigation | As soon as possible |
 
-## Security Best Practices 🚀
+---
 
-- Keep dependencies up‑to‑date (`pip-audit` regularly).
-- Use HTTPS for all communications.
-- Store secrets in environment variables, never in source code.
-- Enable Flask‑WTF CSRF protection.
+## 📢 Disclosure
 
-Thank you for helping keep GradeEvaluator AI safe! 🌟
+We follow responsible disclosure. After a fix
+is released we will publish a security advisory
+and credit the reporter if they wish.
+
+---
+
+## 🛡️ Security Best Practices
+
+- All secrets stored in `.env` — never in source code
+- `.env` and `.db` files are gitignored
+- Passwords hashed with `werkzeug` bcrypt
+- All SQL queries use parameterized statements
+- Session-based authentication on all protected routes
+- Dependencies audited regularly with `pip-audit`
+
+---
+
+*Thank you for helping keep GradeEvaluator AI
+safe for students! 🌟*
